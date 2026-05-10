@@ -39,7 +39,7 @@
                 <input type="checkbox" id="hamburguesa">
                 <label for="hamburguesa" class="fa-solid fa-ellipsis-vertical" id="icono"></label>
                 <ul class="menuMovil">
-                    <li><a href="">Mi cuenta</a></li>
+                    <li><a href="login.php">Mi cuenta</a></li>
                     <li><a href="">Novedades</a></li>
                     <li><a href="">Ver géneros</a></li>
                     <li><a href="">Reseñas</a></li>
@@ -54,7 +54,7 @@
                 <img src="public-files/imgs/logo.png" alt="" style='width:5%'>
                 <!-- Navegación de escritorio -->
                 <ul class="menuNav">
-                    <li><a href="">Novedades</a></li>
+                    <li><a href="login.php">Novedades</a></li>
                     <li><a href="">Ver géneros</a></li>
                     <li><a href="">Reseñas</a></li>
                     <li><a href="">Blog</a></li>
@@ -72,7 +72,7 @@
                 <button>Carrito</button>
                 <span class="fa-solid fa-cart-shopping"></span>
                 <div class="pc">
-                    <a href=""><span class="fa-solid fa-user"></span></a>
+                    <a href="login.php"><span class="fa-solid fa-user"></span></a>
                 </div>
             </nav>
             

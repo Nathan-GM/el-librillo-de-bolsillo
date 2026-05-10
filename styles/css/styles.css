@@ -222,6 +222,38 @@ nav > button {
 
 /* FIN DE OFERTAS */
 
+    /* CONTENIDO */
+    .contenido {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        min-height: 55vh;
+    }
+
+    /* FIN DE CONTENIDO */
+
+    /* LOGINCARD */
+
+    .loginCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-color: black;
+        border-radius: 2em;
+        background-color: lightgray;
+        padding: 20px;
+    }
+
+    input[type=submit] {
+        padding: 10px;
+        border-radius: 2em;
+        text-align: center; 
+    }
+
+    /* FIN DE LOGINCARD */
+
 footer {
     background-color: #95D5B2;
 
@@ -408,6 +440,8 @@ footer > .menuNav > li > ul {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding: 20px;
+        min-height: 55vh;
     }
 
     /* FIN DE CONTENIDO */
@@ -419,7 +453,15 @@ footer > .menuNav > li > ul {
         flex-direction: column;
         justify-content: center;
         border-color: black;
-        border-radius: 0.5em;
+        border-radius: 2em;
+        background-color: lightgray;
+        padding: 20px;
+    }
+
+    input[type=submit] {
+        padding: 10px;
+        border-radius: 2em;
+        text-align: center; 
     }
 
     /* FIN DE LOGINCARD */
