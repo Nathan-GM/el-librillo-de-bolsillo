@@ -45,7 +45,7 @@
                     <li><a href="">Reseñas</a></li>
                     <li><a href="">Blog</a></li>
                     <?php
-                        if (isset($user) && $user['tipo'] == 'admin') {
+                        if (isset($user) && $user['rol'] == 'admin') {
                             echo '<p><a href="admin.php">Administración</a></p>';
                         }
                     ?>
@@ -59,7 +59,7 @@
                     <li><a href="">Reseñas</a></li>
                     <li><a href="">Blog</a></li>
                     <?php
-                        if (isset($user) && $user['tipo'] == 'admin') {
+                        if (isset($user) && $user['rol'] == 'admin') {
                             echo '<p><a href="admin.php">Administración</a></p>';
                         }
                     ?>
@@ -83,7 +83,7 @@
                 <li>Reseñas</li>
                 <li>Blog</li>
                 <?php
-                    if (isset($user) && $user['tipo'] == 'admin') {
+                    if (isset($user) && $user['rol'] == 'admin') {
                         echo '<p><a href="admin.php">Administración</a></p>';
                     }
                 ?>
