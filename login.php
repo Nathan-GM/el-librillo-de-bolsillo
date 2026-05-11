@@ -1,7 +1,7 @@
 <?php
     include_once('./templates/header.php');
     if (isset($user)) {
-        header("Location: zonaUsuario.php");
+        header("Location: index.php");
     }
     $error = '';
 
@@ -18,13 +18,11 @@
     </div>
 </main>
 <?php
-    include_once('./templates/footer.php');
     // Se comprueba si se ha hecho la petición post.
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
         // Se comrpueba que los campos no estén vacios, si lo están, se devuelve error
         if (!isset($_POST['email']) || !isset($_POST['password'])) {
             $error = 'Correo o contraseña no introducidos.';            
-            echo "<p style='color:red'> <?php echo $error; ?> </p>";
             return;
         }
 
@@ -32,23 +30,30 @@
         $email = $_POST['email'];
         $pass = $_POST['password'];
 
+
         // Se crea la consulta
-        $query = "SELECT * from usuarios where email like '$email' AND contrasenya like '$pass'";
+        $query = "SELECT * from usuarios where email like '$email'";
         try {
             // Se busca el resultado. En caso de haber resultado envia al usuario al inicio de sesión.
             $result = $databaseConnection->query($query);
             if ($result->num_rows == 1) {
-                $_SESSION['user'] = $email;
-                header("Location: index.php");
+                $data = $result->fetch_assoc();
+                if (password_verify($pass, $data['Contrasenya'])) {
+                    $_SESSION['user'] = $email;
+                    header("Location: index.php");
+                } else {
+                    $error = 'Correo o contraseña incorrecto';
+                }
             }
             // Si no, mostrará un aviso de correo incorrecto.
             else {
                 $error = 'Correo o contraseña incorrecto';
-                echo "<p style='color:red'> <?php echo $error; ?> </p>";
             }
         } catch(mysqli_sql_exception $error) {
             $error = 'Ha ocurrido un error al iniciar sesión';
-            echo "<p style='color:red'> <?php echo $error; ?> </p>";
         }
+        echo "<p style='color:red'> $error </p>";
     }
+
+    include_once('./templates/footer.php');
 ?>
