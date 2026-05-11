@@ -236,7 +236,7 @@ nav > button {
 
     /* LOGINCARD */
 
-    .loginCard {
+    .loginCard, .registerCard {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -246,7 +246,7 @@ nav > button {
         padding: 20px;
     }
 
-    input[type=submit] {
+    input[type=submit], #goToLogin {
         padding: 10px;
         border-radius: 2em;
         text-align: center; 
@@ -458,13 +458,32 @@ footer > .menuNav > li > ul {
         padding: 20px;
     }
 
-    input[type=submit] {
-        padding: 10px;
+    /* FIN DE LOGINCARD */
+
+    /* REGISTERCARD */
+
+    .registerCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: cen;
+        border-color: black;
         border-radius: 2em;
-        text-align: center; 
+        background-color: lightgray;
+        padding: 20px;
+        min-width: 750px;
     }
 
-    /* FIN DE LOGINCARD */
+    .cards {
+        display: flex;
+        flex-direction: row;
+        justify-items: center;
+        align-items: center;
+
+        gap: 3%;
+    }
+
+    /* FIN DE REGISTERCARD */
 
     /* FOOTER */
 
