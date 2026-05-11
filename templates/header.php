@@ -30,9 +30,9 @@
                 $user = $result->fetch_assoc();
             }
         ?>
-
     </head>
     <body>
+    <?php echo "<b>DEV: Email:" .  $user['Email'] . " - Nombre Apellido: " . $user['Nombre'] . " - Rol " . $user['Rol'] . "</b>"?>
         <header>
             <nav>
                 <!-- Botón para mostrar el menu del movil. -->
@@ -45,7 +45,7 @@
                     <li><a href="">Reseñas</a></li>
                     <li><a href="">Blog</a></li>
                     <?php
-                        if (isset($user) && $user['rol'] == 'admin') {
+                        if (isset($user) && $user['Rol'] == 'admin') {
                             echo '<p><a href="admin.php">Administración</a></p>';
                         }
                     ?>
@@ -59,7 +59,7 @@
                     <li><a href="">Reseñas</a></li>
                     <li><a href="">Blog</a></li>
                     <?php
-                        if (isset($user) && $user['rol'] == 'admin') {
+                        if (isset($user) && $user['Rol'] == 'admin') {
                             echo '<p><a href="admin.php">Administración</a></p>';
                         }
                     ?>
@@ -83,7 +83,7 @@
                 <li>Reseñas</li>
                 <li>Blog</li>
                 <?php
-                    if (isset($user) && $user['rol'] == 'admin') {
+                    if (isset($user) && $user['Rol'] == 'admin') {
                         echo '<p><a href="admin.php">Administración</a></p>';
                     }
                 ?>
