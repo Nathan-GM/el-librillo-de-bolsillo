@@ -1,13 +1,13 @@
 <?php
     include_once('./templates/header.php');
     if (isset($user)) {
-        header("Location: index.php");
+        header("Location: zonaUsuario.php");
     }
     $error = '';
 
 ?>
 <main>
-    <div class='contenido'>
+    <section class='contenido'>
         <form action="login.php" method="post" class='loginCard'>
             <h2>Iniciar sesión</h2>
             <p>Correo: <input type='email' name='email' id='email'></p>
@@ -15,7 +15,7 @@
             <input type="submit" value="Iniciar sesión" name='login'>
             <p>¿No tienes cuenta? <a href="register.php">Registrate</a></p>
         </form>
-    </div>
+    </section>
 </main>
 <?php
     // Se comprueba si se ha hecho la petición post.
@@ -40,7 +40,7 @@
                 $data = $result->fetch_assoc();
                 if (password_verify($pass, $data['Contrasenya'])) {
                     $_SESSION['user'] = $email;
-                    header("Location: index.php");
+                    header("Location: zonaUsuario.php");
                 } else {
                     $error = 'Correo o contraseña incorrecto';
                 }
