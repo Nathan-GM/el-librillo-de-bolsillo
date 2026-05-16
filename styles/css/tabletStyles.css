@@ -1,0 +1,229 @@
+/* TABLET */
+@media screen and (min-width: 768px) {
+    #icono {
+        display: none;
+    }
+
+    .menuMovil {
+        display: none;
+    }
+
+    .tablet {
+        display: block;
+    }
+
+    .menuNavTablet {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        list-style-type: none;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .nav {
+        font-size: 1.5em;
+    }
+
+    nav > .tablet {
+        margin-left: auto;
+    }
+
+    nav > span:nth-child(7) {
+        margin-left: 1px;
+        padding: 10px;
+    }
+
+    /* NOVEDADES */
+    
+    .libroN {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .libroN > h3:nth-child(1) {
+        display: none;
+    }
+
+    .librosN > .libroN:nth-of-type(2), .librosN > .libroN:nth-of-type(3) {
+        display: block;
+    }
+
+    /* El botón de Ver y el titulo debajo de la foto son visibles en tablet, se hacen visibles y se centran.*/
+    .libroN > h3:nth-child(3), .libroN > button:first-of-type {
+        display: block;
+        justify-self: center;
+        width: 40%;
+    }
+
+    /* Se le da un padding al botón */
+    .libroN > button {
+        padding: 20px;
+        border-radius: 15px;
+        background-color: #B7E4C7;
+    }
+
+    /* FIN NOVEDADES */
+
+    /* DESTACADO */
+
+    .libroD {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .libroD > h3:nth-child(1) {
+        display: none;
+    }
+
+    .librosD > .libroD:nth-of-type(2), .librosD > .libroD:nth-of-type(3) {
+        display: block;
+    }
+
+    /* El botón de Ver y el titulo debajo de la foto son visibles en tablet, se hacen visibles y se centran.*/
+    .libroD > h3:nth-child(3), .libroD > button:first-of-type {
+        display: block;
+        justify-self: center;
+        width: 40%;
+    }
+
+    /* FIN DE DESTACADO */
+
+
+    /* OFERTA */
+    /* Se ocultan las otras ofertas */
+    .librosO > .libroO:nth-of-type(2), .librosO > .libroO:nth-of-type(3) {
+        display: none;
+    }
+    /* Se ocultan los botones y titulo anteriores */
+    .libroO > button:first-of-type, .libroO > h3:first-of-type {
+        display: none;
+    }
+
+    /* Se muestran los botones y la descripción*/
+    .botones, .descripcion {
+        display: inline;
+    }
+
+    /* Se editan los botones como corresponde */
+    .libroO > .botones > button {
+        padding: 15px;
+        border-radius: 15px;
+        background-color: #B7E4C7;  
+    }
+
+    /* Se muestra todo en fila */
+    .libroO {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Se edita el tamaño de la imagen */
+    .libroO > img {
+        width: 20%;
+        height: 20%;
+    }
+
+    /* Se colocan bien los botones */
+    .botones {
+        display: flex;
+        flex-direction: column;
+        justify-self: start;
+    }
+    .botones > button:first-child {
+        margin: 30px;
+    }
+
+    /* Se coloca la descripcion y titulo correctamente. */
+    .descripcion {
+        display: flex;
+        flex-direction: column;
+        width: 35%;
+    }
+
+    /* FIN DE OFERTA */
+
+    /* CONTENIDO */
+    .contenido {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        min-height: 55vh;
+    }
+
+    /* FIN DE CONTENIDO */
+
+    /* LOGINCARD */
+
+    .loginCard, .generalCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-color: black;
+        border-radius: 2em;
+        background-color: lightgray;
+        padding: 20px;
+    }
+
+    /* FIN DE LOGINCARD */
+
+    /* REGISTERCARD */
+
+    .registerCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: cen;
+        border-color: black;
+        border-radius: 2em;
+        background-color: lightgray;
+        padding: 20px;
+        min-width: 750px;
+    }
+
+    .cards {
+        display: flex;
+        flex-direction: row;
+        justify-items: center;
+        align-items: center;
+
+        gap: 3%;
+    }
+
+    /* FIN DE REGISTERCARD */
+
+    /* FOOTER */
+
+    /* Se muestra el logo correspondiente */
+    footer > img:first-of-type {
+        display: inline;
+    }
+    /* Se oculta lo que no es necesario ahora mismo */
+    footer > span, footer > img:last-of-type {
+        display: none;
+    }
+
+    /* Se muestra el menu de navegación */
+    footer > .menuNav {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    footer > .menuNav > li {
+        margin-left: 45px;
+    }
+    /* Se oculta el ultimo li que aquí no es necesario */
+    footer > .menuNav > li:last-of-type {
+        display: none;
+    }
+}

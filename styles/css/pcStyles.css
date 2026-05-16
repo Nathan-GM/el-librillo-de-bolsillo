@@ -1,0 +1,101 @@
+/* PC */
+@media screen and (min-width: 1024px) {
+    /* Se oculta lo especifico de tablet */
+    .tablet {
+        display: none;
+    }
+    /* Se ajusta la barra de navegación principal */
+    nav > .menuNav {
+        width: 60%;
+        margin: auto;
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav > .menuNav > li {
+        margin-left: 30px;
+    }
+
+    /* Se muestra el botón de carrito */
+    nav > button {
+        display: inline;
+        padding: 8px;
+        border-radius: 15px;
+        
+    }
+
+    /* Se oculta el icono del carrito anterior */
+    nav > span:nth-child(9) {
+        display: none;
+    }
+
+    /* Se muestra el icono asociado a PC.*/
+    .pc {
+        display: inline;
+        padding: 10px;
+        font-size: 1.3em;
+    }
+
+
+    /* NOVEDADES */
+
+    /*Se muestra un cuarto libro*/
+    .librosN > .libroN:nth-of-type(4) {
+        display: block;
+    }
+
+    /* Se ajustan las imagenes */
+    .libroN > img {
+        width: 40%;
+        height: 40%;
+    }
+
+    /* FIN DE NOVEDADES */
+
+    /* DESTACADOS */
+
+    /*Se muestra un cuarto libro*/
+    .librosD > .libroD:nth-of-type(4) {
+        display: block;
+    }
+
+    /* Se ajustan las imagenes */
+    .libroD > img {
+        width: 40%;
+        height: 40%;
+    }
+
+    /* FIN DE DESTACADOS */
+
+    /* FOOTER */
+
+    /* Se muestra el ultimo li que */
+    footer > .menuNav > li:last-of-type {
+        display: inline;
+    }
+
+    /* Se muestra el sublistado de géneros*/
+    footer > .menuNav > li > ul {
+        display: block;
+        font-size: 0.8em;
+        margin-top: 10px;
+    }
+
+    /* Se ajusta los iconos de contacto */
+    .iconosContacto {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8em;
+    }
+
+    /* Se muestra el último */
+    .iconosContacto > li:last-child {
+        display: inline;
+    }
+
+}
