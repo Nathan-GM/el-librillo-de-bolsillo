@@ -1,0 +1,72 @@
+<?php
+    include_once("./templates/header.php");
+    if (!isset($user)) {
+        header("Location: login.php");
+    }
+
+    function crearTabla($query, $databaseConnection) {
+        
+        try {
+            $items = $databaseConnection->query($query);
+            $estiloTabla = "'border: 1px solid black; padding:10px; text-align:center;'";
+            echo "<tr>";
+                echo "<th style=$estiloTabla>Nombre</th>";
+                echo "<th style=$estiloTabla>Cantidad</th>";
+                echo "<th title='Precio por Unidad' style=$estiloTabla>PpU</th>";
+                echo "<th style=$estiloTabla>Precio total</th>";
+            echo "</tr>";
+
+            while ($fila = $items->fetch_assoc()) {
+                foreach($fila as $indice=>$valor)
+                $totalProduct = floatval($fila['Precio']) * floatval($fila['cantidad']);
+                echo "<tr>";
+                    echo "<td style=$estiloTabla>" . $fila['Nombre'] ."</td>";
+                    echo "<td style=$estiloTabla>" . $fila['cantidad'] ."</td>";
+                    echo "<td style=$estiloTabla>" . $fila['Precio'] ."€</td>";
+                    echo "<td style=$estiloTabla>" . $totalProduct ."€</td>";
+                echo "</tr>";
+            }
+        } catch(mysqli_sql_exception $e) {
+            echo $e;
+        }
+    }
+
+    $cartQuery = "SELECT * FROM carrito WHERE user_email like '" . $user['Email'] . "' AND estado like 'pendiente'";
+    $cartResult = $databaseConnection->query($cartQuery);
+    $cart = $cartResult->fetch_assoc();
+
+    $cartResult->free();
+    $itemsNumber = 0;
+    $itemCarts = '';
+
+    if (isset($cart)) {
+        $itemCarts = "SELECT carritoId, cantidad, a.Nombre, a.Precio 
+        FROM elementosCarrito
+        INNER JOIN articulos a ON a.id = articuloId
+        WHERE carritoId like '" . $cart['id'] ."'";
+        $cartResult = $databaseConnection->query($itemCarts);
+        $itemsNumber = $cartResult->num_rows;
+        $cartResult->free();
+    }
+?>
+    <main>
+        <section class='contenido'>
+            <h1>Carrito actual de <?php echo $user['Nombre'];?> </h1>
+            <table>
+                <?php
+                    if ($itemsNumber == 0) {
+                        echo '<h2>No has agregado ningún producto, ¡busca alguno!</h2>';
+                        echo isset($cart) ? "cierto" : "falso";
+                    } else {
+                        crearTabla($itemCarts, $databaseConnection);
+                    }
+                ?>
+            </table>
+            <!-- TODO: llevar al pago de formulario. -->
+            <button disabled>Procesar pago</button>
+        </section>
+    </main>
+
+<?php
+    include_once("./templates/footer.php");
+?>
