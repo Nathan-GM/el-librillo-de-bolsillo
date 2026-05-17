@@ -56,17 +56,28 @@
                 <?php
                     if ($itemsNumber == 0) {
                         echo '<h2>No has agregado ningún producto, ¡busca alguno!</h2>';
-                        echo isset($cart) ? "cierto" : "falso";
                     } else {
                         crearTabla($itemCarts, $databaseConnection);
                     }
                 ?>
             </table>
             <!-- TODO: llevar al pago de formulario. -->
-            <button disabled>Procesar pago</button>
+            <button id='goToPayment' <?php if ($itemsNumber == 0) echo 'disabled' ?>>Procesar pago</button>
         </section>
     </main>
 
 <?php
     include_once("./templates/footer.php");
 ?>
+
+<script>
+    // Se obtiene el botón goToPayment y se le asigna la función del mismo nombre
+    document.getElementById("goToPayment").addEventListener("click", goToPayment, false);
+
+    /**
+     * Función que lleva al usuario a la página del formulario de pago.
+     */
+    function goToPayment() {
+        window.location.href = 'paymentForm.php';
+    }
+</script>
