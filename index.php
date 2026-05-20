@@ -1,14 +1,14 @@
 <?php
     include_once('./templates/header.php');
     // Se crea la consulta de las novedades
-    $consultaNovedades = "select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, g.nombre as nombreGenero
+    $consultaNovedades = "select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, a.portada, g.nombre as nombreGenero
     from articulos a 
     join generos g on a.GeneroID = g.ID 
     ORDER BY a.id ASC 
     LIMIT 4";
 
     // Consulta para libros destacando
-    $consultaDestacando = "select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, g.nombre as nombreGenero
+    $consultaDestacando = "select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, a.portada, g.nombre as nombreGenero
     from articulos a
     join generos g on a.GeneroID = g.ID
     where a.stock > 0
@@ -42,8 +42,13 @@
                                 <?php echo $fila['nombre'];?>
                             </h3>
 
-                            <!-- TODO: Cambiar por la imagen del fichero -->
-                            <img src="public-files/imgs/libroPlaceholder.png" alt="Portada del libro">
+                             <?php
+                                if ($fila['portada'] == '') {
+                                    echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
+                                } else {
+                                    echo "<img src='public-files/books-imgs/". $fila['portada'] ."' alt='Portada del libro'>";
+                                }
+                             ?>
                             <h3>
                                 <?php echo $fila['nombre'];?>
                             </h3>
@@ -93,8 +98,13 @@
                                 <?php echo $fila['nombre'];?>
                             </h3>
 
-                            <!-- TODO: Cambiar por la imagen del fichero -->
-                            <img src="public-files/imgs/libroPlaceholder.png" alt="Portada del libro">
+                            <?php
+                                if ($fila['portada'] == '') {
+                                    echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
+                                } else {
+                                    echo "<img src='public-files/books-imgs/". $fila['portada'] ."' alt='Portada del libro'>";
+                                }
+                             ?>
                             <h3>
                                 <?php echo $fila['nombre'];?>
                             </h3>

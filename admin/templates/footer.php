@@ -1,5 +1,5 @@
-        <footer>
-            <img src="public-files/imgs/logo.png" alt="" style='width:5%'>
+<footer>
+            <img src="../public-files/imgs/logo.png" alt="" style='width:5%'>
             <ul class="menuNav">
                 <li>Novedades</li>
                 <li>Ver géneros
@@ -14,7 +14,7 @@
                 <li>Contacto</li>
             </ul>
             <span>Preguntas frecuentes</span>
-            <img src="public-files/imgs/logo.png" alt="logo" style='width:5%'>
+            <img src="../public-files/imgs/logo.png" alt="logo" style='width:5%'>
             <ul class="iconosContacto">
                 <li class="fa-brands fa-instagram"></li>
                 <li class="fa-brands fa-facebook"></li>

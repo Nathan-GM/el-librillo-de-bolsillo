@@ -4,17 +4,17 @@
         <meta charset='UTF-8'>
         <title>El librillo de bolsillo</title>
         <!-- Estilos -->
-        <link rel="stylesheet" href="./styles/css/styles.css">
-        <link rel="stylesheet" href="./styles/css/tabletStyles.css">
-        <link rel="stylesheet" href="./styles/css/pcStyles.css">
+        <link rel="stylesheet" href="../styles/css/styles.css">
+        <link rel="stylesheet" href="../styles/css/tabletStyles.css">
+        <link rel="stylesheet" href="../styles/css/pcStyles.css">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="./styles/css/fontawesome.css">
-        <link rel="stylesheet" href="./styles/css/brands.css">
-        <link rel="stylesheet" href="./styles/css/regular.css">
-        <link rel="stylesheet" href="./styles/css/solid.css">
+        <link rel="stylesheet" href="../styles/css/fontawesome.css">
+        <link rel="stylesheet" href="../styles/css/brands.css">
+        <link rel="stylesheet" href="../styles/css/regular.css">
+        <link rel="stylesheet" href="../styles/css/solid.css">
 
         <!-- Ficheros JS -->
-         <script src="./js/jquery-4.0.0.min.js"></script>
+         <script src="../js/jquery-4.0.0.min.js"></script>
 
 
         <!-- PHP - se inicia la sesión y se obtiene al usuario. -->
@@ -45,18 +45,18 @@
                 <input type="checkbox" id="hamburguesa">
                 <label for="hamburguesa" class="fa-solid fa-ellipsis-vertical" id="icono"></label>
                 <ul class="menuMovil">
-                    <li><a href="login.php">Mi cuenta</a></li>
+                    <li><a href="">Mi cuenta</a></li>
                     <li><a href="">Novedades</a></li>
                     <li><a href="">Ver géneros</a></li>
                     <li><a href="">Reseñas</a></li>
                     <?php
                         if (isset($user) && $user['Rol'] == 'admin') {
-                            echo '<p><a href="admin.php">Administración</a></p>';
+                            echo '<p><a href="../admin.php">Administración</a></p>';
                         }
                     ?>
                 </ul>
 
-                <img src="public-files/imgs/logo.png" alt="" style='width:5%' id="goIndex">
+                <img src="../public-files/imgs/logo.png" alt="" style='width:5%' id="goIndex">
                 <!-- Navegación de escritorio -->
                 <ul class="menuNav">
                     <li><a href="">Novedades</a></li>
@@ -64,7 +64,7 @@
                     <li><a href="">Reseñas</a></li>
                     <?php
                         if (isset($user) && $user['Rol'] == 'admin') {
-                            echo '<p><a href="admin.php">Administración</a></p>';
+                            echo '<p><a href="../admin.php">Administración</a></p>';
                         }
                     ?>
                 </ul>
@@ -76,7 +76,7 @@
                 <button id='cart'>Carrito</button>
                 <span class="fa-solid fa-cart-shopping"></span>
                 <div class="pc">
-                    <a href="login.php"><span class="fa-solid fa-user"></span></a>
+                    <a href="../login.php"><span class="fa-solid fa-user"></span></a>
                 </div>
             </nav>
             
@@ -87,7 +87,7 @@
                 <li>Reseñas</li>
                 <?php
                     if (isset($user) && $user['Rol'] == 'admin') {
-                        echo '<p><a href="admin.php">Administración</a></p>';
+                        echo '<p><a href="../admin.php">Administración</a></p>';
                     }
                 ?>
             </ul>
@@ -100,7 +100,7 @@
 
         // Función que lleva al usuario al index al pulsar la imagen.
         function goToIndex() {
-            window.location.href = 'index.php';
+            window.location.href = '../index.php';
         }
 
         function goToCartPage() {
