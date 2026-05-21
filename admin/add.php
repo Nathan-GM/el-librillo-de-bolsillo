@@ -27,13 +27,14 @@
         $error = "Ha ocurrido el siguiente error: " . $e->getMessage();
     }
 
-    function gestionarFichero($file) {
+    function gestionarFichero($file, $id) {
         // Directorio donde se almacenan
         $fileDirectory = "../public-files/books-imgs/";
 
         // Se obtienen los nombres del fichero
         $tmpName = $file["tmp_name"];
-        $name = $file['name'];
+        $separatedName = explode('.', $file['name']);
+        $name = $id . "." . end($separatedName);
         // Si se ha subido correctamente
         if (is_uploaded_file($tmpName)) {
             // Se mueve el fichero a la ruta indicada.
@@ -56,48 +57,46 @@
             $error = "Faltan datos en el formulario.";
         } else {
             $fileName = '';
-            $continue = true;
-            // Se comprueba si es distinto a 4 ya que ese indica que no hay fichero
-            // Fuente: https://www.php.net/manual/en/features.file-upload.errors.php
-            if ($_FILES['portada']['error'] != 4) {
-                $fileName = gestionarFichero($_FILES['portada']);
-                if ($fileName == "") {
-                    $error = "Error al subir el archivo";
-                    print_r($_FILES);
-                    $continue = false;
-                } else {
-                    echo $fileName;
-                }
-            }
-            if ($continue) {
-                try {
-                    $titulo = $_POST['title'];
-                    $descripcion = $_POST['description'];
-                    $stock = $_POST['stock'];
-                    $autor = $_POST['autor'];
-                    $editorial = $_POST['editorial'];
-                    $precio = $_POST['price'];
-                    $genero = $_POST['genre'];
+            try {
+                $titulo = $_POST['title'];
+                $descripcion = $_POST['description'];
+                $stock = $_POST['stock'];
+                $autor = $_POST['autor'];
+                $editorial = $_POST['editorial'];
+                $precio = $_POST['price'];
+                $genero = $_POST['genre'];
 
-                    if ($titulo == null || $descripcion == null || $stock == 0 || $stock == null || $autor == null ||
-                    $editorial == null || $precio == 0 || $precio == null || $genero == null) {
-                        $error = "Alguno de los campos son erroneos.";
+                if ($titulo == null || $descripcion == null || $stock == 0 || $stock == null || $autor == null ||
+                $editorial == null || $precio == 0 || $precio == null || $genero == null) {
+                    $error = "Alguno de los campos son erroneos.";
+                } else {
+                    $query = "INSERT INTO articulos (generoId, Nombre, Descripcion, Stock, Autor, Editorial, Precio)
+                    VALUES ('$genero', '$titulo', '$descripcion', '$stock', '$autor', '$editorial', '$precio');
+                    ";
+                    if (!$result = $databaseConnection->query($query)) {
+                        // Si da error 1062 dará error por la clave primaria
+                        if ($databaseConnection->errno == 1062) {
+                            $error = "Ha ocurrido un error con la clave primaria.";
+                        }
                     } else {
-                        $query = "INSERT INTO articulos (generoId, Nombre, Descripcion, Stock, Autor, Editorial, Portada, Precio)
-                        VALUES ('$genero', '$titulo', '$descripcion', '$stock', '$autor', '$editorial', '$fileName', '$precio');
-                        ";
-                        if (!$result = $databaseConnection->query($query)) {
-                            // Si da error 1062 dará error por la clave primaria
-                            if ($databaseConnection->errno == 1062) {
-                                $error = "Ha ocurrido un error con la clave primaria.";
+                        // Se comprueba si es distinto a 4 ya que ese indica que no hay fichero
+                        // Fuente: https://www.php.net/manual/en/features.file-upload.errors.php
+                        $continue = true;
+                        $id = $databaseConnection->insert_id;
+                        if ($_FILES['portada']['error'] != 4) {
+                            $fileName = gestionarFichero($_FILES['portada'], $id);
+                            if ($fileName == "") {
+                                $error = "Error al subir el archivo. Deberá editar el articulo para agregar la portada.";
+                                $continue = false;
+                            } else {
+                                $updateQuery = "UPDATE articulos SET portada = '$fileName' where ID = '$id'";
+                                $databaseConnection->query($updateQuery);
                             }
-                        } else {
-                            $error = "Se ha creado el articulo correctamente.";
                         }
                     }
-                } catch (mysqli_sql_exception $e) {
-                    $error = "Ha ocurrido el siguiente error: " . $e->getMessage();
                 }
+            } catch (mysqli_sql_exception $e) {
+                $error = "Ha ocurrido el siguiente error: " . $e->getMessage();
             }
         }
 
