@@ -71,9 +71,9 @@
         window.location.href = 'admin/addgenre.php';
     }
     function goToEditProduct() {
-        window.location.href = 'admin/list.php';
+        window.location.href = 'admin/editProduct.php';
     }
     function goToDeleteProduct() {
-        window.location.href = 'admin/list.php';
+        window.location.href = 'admin/removeProduct.php';
     }
 </script>
