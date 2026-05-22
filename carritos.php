@@ -36,8 +36,7 @@
                 echo "<td style=" . $estiloTabla . ">" . $fila['id'] . "</td>";
                 echo "<td style=" . $estiloTabla . ">" . $fila['estado'] . "</td>";
                 $buttonDisabled = $fila['estado'] != 'completado' ? 'disabled' : '';
-                // TODO: agregar on click que abra FPDF
-                echo "<td style=" . $estiloTabla . "><button " . $buttonDisabled  . " >Ver pedido en PDF</button>";
+                echo "<td style=" . $estiloTabla . "><button " . $buttonDisabled  . " onclick='getOnPDF(". $fila['id'] .")'>Ver pedido en PDF</button>";
 
 
                 echo "</tr>";
@@ -86,6 +85,13 @@
             </table>
         </section>
     </main>
+
+    <script>
+        function getOnPDF(id) {
+            // window.location.href = 'cartPDF.php?carrito=' + id;
+            window.open("cartPDF.php?carrito=" + id + "");
+        }
+    </script>
 
 <?php
     include_once("./templates/footer.php");

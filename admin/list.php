@@ -16,6 +16,18 @@
     // Si esta indicado en el GET, se obtiene la página 
     if (isset($_GET['pagina'])) {
         $page = $_GET['pagina'];
+    };
+
+    $genres = [];
+    $q = "SELECT * FROM generos";
+    $gResult = $databaseConnection->query($q);
+    $position = 0;
+    while ($fila = $gResult->fetch_assoc()) {
+        $tmp = [];
+        $tmp['id'] = $fila['ID'];
+        $tmp['nombre'] = $fila['Nombre'];
+        $genres[$position] = $tmp;
+        $position = $position + 1;
     }
 
     /**
@@ -33,8 +45,13 @@
         $query = "SELECT a.Nombre, a.Descripcion, a.Autor, a.Editorial, a.Stock, a.Precio, g.Nombre as Genero 
         FROM Articulos a
         INNER JOIN generos g on g.id = a.GeneroID
-        LIMIT $posicion, $itemsPerPage
         ";
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['filtrar'])) {
+            $query = $query . " WHERE GeneroID LIKE '" . $_POST['opcion'] . "'";
+        }
+
+        $query = $query . " LIMIT $posicion, $itemsPerPage";
 
         $estilo = "'border: 1px solid black; padding:10px; text-align:center;'";
 
@@ -73,6 +90,8 @@
             for ($contador = 1; $contador <= $totalPages; $contador++) { 
                 echo "<a style='text-align:center;' href='list.php?page=$contador'>$contador</a>";
             }
+            echo "<br>";
+            echo "<button onclick='listOnPDF()'>Exportar a PDF todos los productos</button>";
             echo "</caption>";
 
         } catch(mysqli_sql_exception $e) {
@@ -88,6 +107,7 @@
     try {
         // Se obtiene el total de productos que hay en la BD
         $inicialQuery = "SELECT * FROM ARTICULOS";
+
         $result = $databaseConnection->query($inicialQuery);
         $totalProductos = $result->num_rows;
         $result->free();
@@ -113,8 +133,29 @@
                 }
             ?>
         </table>
+
+        <h2>Filtrar por género</h2>
+        <form action="list.php" method="POST">
+        <select name="opcion">
+            <?php
+                for ($i=0; $i < count($genres) ; $i++) { 
+                    echo "<option value=" . $genres[$i]["id"] . ">";
+                    echo $genres[$i]["nombre"];
+                    echo "</option>";
+                }
+            ?>
+        </select>
+        <br>
+        <input type="submit" name="filtrar" value="Filtrar">
+        </form>
     </section>
 </main>
 <?php
     include_once('./templates/footer.php');
 ?>
+
+<script>
+    function listOnPDF() {
+        window.open("productPDF.php");
+    }
+</script>
