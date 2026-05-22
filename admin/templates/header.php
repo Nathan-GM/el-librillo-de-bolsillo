@@ -114,7 +114,7 @@
 
             // Si hay una sesión inicada, se lleva al usuario a la página de carrito.php
             if (haySesionIniciada) {
-                window.location.href = 'carrito.php';
+                window.location.href = '../carrito.php';
             } else {
                 // Si no, se le lleva al login.
                 window.location.href = 'login.php';
