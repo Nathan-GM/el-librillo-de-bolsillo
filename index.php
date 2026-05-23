@@ -59,7 +59,7 @@
                             </h4>
 
                             <!-- Botones de acción -->
-                            <button>Ver</button>
+                            <button onclick="ver(<?php echo $fila['id']?>)">Ver</button>
                             <br>
                             <button <?php if($fila['stock']<= 0) echo 'disabled'; ?>>
                                 <?php
@@ -115,7 +115,7 @@
                             </h4>
 
                             <!-- Botones de acción -->
-                            <button>Ver</button>
+                            <button onclick="ver(<?php echo $fila['id']?>)">Ver</button>
                             <br>
                             <button <?php if($fila['stock']<= 0) echo 'disabled'; ?>>
                                 <?php
@@ -138,3 +138,9 @@
 <?php
     include_once('./templates/footer.php');
 ?>
+
+<script>
+    function ver(id) {
+        window.location.href = `product.php?producto=${id}`;
+    }
+</script>

@@ -116,6 +116,6 @@
 
 <script>
     function ver(id) {
-        console.log(`Ver producto ${id}`);
+        window.location.href = `product.php?producto=${id}`;
     }
 </script>
