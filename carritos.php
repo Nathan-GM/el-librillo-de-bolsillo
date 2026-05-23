@@ -56,6 +56,9 @@
 
     $result -> free();
     $tablePage = 1;
+    if (isset($_GET['pagina'])) {
+        $tablePage = $_GET['pagina'];
+    }
 
 ?>
 
