@@ -47,24 +47,72 @@
         }
     }
 
+    // Agregar al carrito
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
+        $query = "SELECT * FROM carrito WHERE user_email = '" . $user['Email'] . "' and estado = 'pendiente'";
+        $cartResult = $databaseConnection->query($query);
+        $cart = $cartResult->fetch_assoc();
+        $idCarrito = $cart['id'];
+        $articuloId = $_POST['producto'];
+
+        $query = "SELECT * FROM elementoscarrito where carritoId = '$idCarrito' AND articuloId = '$articuloId'";
+        $result = $databaseConnection->query($query);
+        $query = "";
+        if ($result->num_rows == 1) {
+            $valueResult = $result->fetch_assoc();
+            $cantidad = $valueResult['cantidad'];
+            $nuevaCantidad = intval($cantidad) + 1;
+            $query = "UPDATE elementoscarrito SET cantidad = '$nuevaCantidad' where carritoId = '$idCarrito' and articuloId = '$articuloId'";
+        } else {
+            $query = "INSERT INTO elementoscarrito (carritoId, articuloId, cantidad)
+            VALUES ('$idCarrito', '$articuloId', '1')";
+        }
+        $result->free();
+
+        try {
+            // Se ejecuta
+            if (!$result = $databaseConnection->query($query)) {
+                // Si da error 1062 dará error por la clave primaria
+                if ($databaseConnection->errno == 1062) {
+                    $error = "Ha ocurrido un error con la clave primaria.";
+                }
+            } else {
+                // Si todo va bien, se mostrará el aviso
+                $error = "Se ha registrado correctamente.";
+            }
+        } catch (mysqli_sql_exception $error) {
+            // Se captura la excepción de mysqli.
+            $mensajeError = "Ha ocurrido un error: <br>";
+            $mensajeError =  $mensajeError . "Mensaje de error:" . $error->getMessage() ."<br>";
+            $mensajeError =  $mensajeError . "Numero de error:" . $error->getCode() ."<br>";
+        }
+    }
+
     // Si no se encuentra el producto dará error.
     if (!isset($_GET['producto']) && !isset($_POST['producto'])) {
         $error = "No se ha encontrado el producto. Disculpa las molestias.";
-    } else {
+    } else {        
+        $producto = '';
         // Se obtiene el producto indicado
-        $query = "SELECT a.Nombre, a.Descripcion, a.Autor, a.Editorial, a.Stock, a.Precio, a.portada, g.Nombre as Genero 
+        if (isset($_GET['producto'])) {
+            $producto = $_GET['producto'];
+        }
+        else if ($producto == '' && isset($_POST['producto'])) {
+            $producto = $_POST['producto'];
+        }
+        $query = "SELECT a.Nombre, a.Descripcion, a.Autor, a.Editorial, a.Stock, a.Precio, a.portada, a.id, g.Nombre as Genero 
         FROM Articulos a
         INNER JOIN generos g on g.id = a.GeneroID
-        where a.id = '" . $_GET['producto'] . "'";
+        where a.id = '" . $producto . "'";
         $result = $databaseConnection->query($query);
 
         // Si la fila no es igual a 1, no se ha encontrado el producto.
         if ($result->num_rows != 1) {
-            $error = "No se ha encontrado el producto. Disculpa las molestias.";
+            $error = "No se ha encontrado el producto. Disculpa las molestias. - $producto";
         } else {
             // Si no, se almacena su valor y se obtienen las reseñas
             $product = $result->fetch_assoc();
-            $query = "SELECT * FROM resenya where idArticulo = '" . $_GET['producto'] . "' LIMIT 2";
+            $query = "SELECT * FROM resenya where idArticulo = '" . $producto . "' LIMIT 2";
             $resultR = $databaseConnection->query($query);
             // Se almacenan las reseñas en el array de reseñas.
             $position = 0;
@@ -87,7 +135,7 @@
                 }
             }
 
-            $query = "SELECT AVG(puntuacion) as promedio from resenya where idArticulo = '" . $_GET['producto'] . "'";
+            $query = "SELECT AVG(puntuacion) as promedio from resenya where idArticulo = '" . $producto . "'";
             $resultP = $databaseConnection->query($query);
             $promedio = $resultP->fetch_assoc();
 
@@ -128,7 +176,10 @@
                 echo "<button disabled>Actualmente agotado</button>";
             } else {
                 if(isset($user)) {
-                    echo "<button>Agregar al carrito</button>";
+                    echo "<form action='product.php' method='post'>";
+                    echo "<input type='text' value='" . $product['id'] ."' hidden name='producto'>";
+                    echo "<input type='submit' value='Agregar al carrito' name='add'></input>";
+                    echo "</form>";
                 } else {
                     echo "<button id='login'>Inicia sesión para agregarlo al carrito</button>";
                 }
