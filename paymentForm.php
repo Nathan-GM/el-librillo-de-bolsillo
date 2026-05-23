@@ -4,6 +4,29 @@
     if (!isset($user)) {
         header("Location: login.php");
     }
+
+    function actualizarStock($id, $databaseConnection) {
+        $query ="SELECT carritoId, cantidad, a.Nombre, a.Precio, articuloId 
+        FROM elementosCarrito
+        INNER JOIN articulos a ON a.id = articuloId
+        WHERE carritoId like '" . $id ."'";
+
+        $result = $databaseConnection->query($query);
+        while($fila = $result->fetch_assoc()) {
+            $idArticulo = $fila['articuloId'];
+            $cantidad = $fila['cantidad'];
+
+            $q = "SELECT stock FROM articulos where id = '$idArticulo'";
+            $stockResult = $databaseConnection->query($q);
+            $stockInicial = $stockResult->fetch_assoc();
+
+            $updatedStock = intval($stockInicial['stock']) - intval($cantidad);
+
+            $q = "UPDATE articulos SET stock = '$updatedStock' where id = '$idArticulo'";
+            $databaseConnection->query($q);
+        }
+    }
+
     $error = "";
 
     // Se obtiene el actual carrito pendiente del usuario
@@ -74,15 +97,15 @@
                 // Consultas para actualizar el carrito y marcarlo como completado y crear un nuevo carrito para el usuario.
                 $completeCartQuery = "UPDATE carrito SET estado = 'completado' WHERE ID = '" . $userCart['id'] . "'";
                 $createNewCartQuery = "INSERT INTO carrito (user_email, estado) VALUES ('" . $user['Email'] . "', 'pendiente')";
-
+                
                 try {
                     // Se completa el carrito
                     $result = $databaseConnection->query($completeCartQuery);
-                    // TODO: Generar PDF con el carrito actual.
-
+                    // Se actualiza el stock
+                    actualizarStock($userCart['id'], $databaseConnection);
                     // Se genera un nuevo carrito para el usuario y se manda a la página principal.
                     $result = $databaseConnection->query($createNewCartQuery);
-                    header("Location: index.php");
+                    header("Location: carritos.php");
                 } catch (mysqli_sql_exception $e) {
                     $error = 'Ha ocurrido un error al completar el pago. <br>';
                     $error = $error . "Mensaje de Error: " . $e ->getMessage() . "<br>";
