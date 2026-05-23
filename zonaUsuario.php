@@ -22,7 +22,7 @@
                     <p>¿Algún dato introducido era incorrecto?</p>
                     <p>¡Edita tu perfil y confirma que todo sea correcto para tus compras!</p>
 
-                    <a href="logout.php"><button disabled>Editar perfil.</button></a>
+                    <a href="editUser.php"><button>Editar perfil.</button></a>
                 </div>
                 <div class='generalCard'>
                     <h2>Cerrar sesión</h2>
