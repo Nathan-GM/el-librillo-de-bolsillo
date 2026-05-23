@@ -4,6 +4,14 @@
         header("Location: login.php");
     }
 
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
+        $nuevaCantidad = intval($_POST['cantidad']) - 1;
+        $idCarrito = $_POST['carritoId'];
+        $articuloId = $_POST['articuloId'];
+        $q = "UPDATE elementoscarrito SET cantidad = '$nuevaCantidad' where carritoId = '$idCarrito' and articuloId = '$articuloId'";
+        $databaseConnection->query($q);
+    }
+
     function crearTabla($query, $databaseConnection) {
         
         try {
@@ -14,6 +22,7 @@
                 echo "<th style=$estiloTabla>Cantidad</th>";
                 echo "<th title='Precio por Unidad' style=$estiloTabla>PpU</th>";
                 echo "<th style=$estiloTabla>Precio total</th>";
+                echo "<th style=$estiloTabla>Quitar 1</th>";
             echo "</tr>";
 
             while ($fila = $items->fetch_assoc()) {
@@ -24,6 +33,14 @@
                     echo "<td style=$estiloTabla>" . $fila['cantidad'] ."</td>";
                     echo "<td style=$estiloTabla>" . $fila['Precio'] ."€</td>";
                     echo "<td style=$estiloTabla>" . $totalProduct ."€</td>";
+                    echo "<td style=$estiloTabla>";
+                    echo "<form action='carrito.php' method='post'>";
+                        echo "<input type='text' value='" . $fila['id'] ."' hidden name='articuloId'>";
+                        echo "<input type='text' value='" . $fila['cantidad'] ."' hidden name='cantidad'>";
+                        echo "<input type='text' value='" . $fila['carritoId'] ."' hidden name='carritoId'>";
+                        echo "<input type='submit' value='Quitar uno' name='remove'></input>";
+                    echo "</form>";
+                    echo "</td>";
                 echo "</tr>";
             }
         } catch(mysqli_sql_exception $e) {
@@ -40,7 +57,7 @@
     $itemCarts = '';
 
     if (isset($cart)) {
-        $itemCarts = "SELECT carritoId, cantidad, a.Nombre, a.Precio 
+        $itemCarts = "SELECT carritoId, cantidad, a.Nombre, a.Precio, a.id 
         FROM elementosCarrito
         INNER JOIN articulos a ON a.id = articuloId
         WHERE carritoId like '" . $cart['id'] ."'";
