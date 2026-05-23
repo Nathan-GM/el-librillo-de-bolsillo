@@ -155,7 +155,12 @@
             <?php
                 if (count($resenyas) > 0) {
                     for ($i=0; $i < count($resenyas); $i++) { 
-                        echo "<p style='font-weight:bold;'>Reseña de " . $nombres[$i+1]['nombre'] . " hecha " . $resenyas[$i]['fecha'] . "</p>";
+                        // Se formatea la fecha para mejor comprensión.
+                        $fecha = $resenyas[$i]['fecha'];
+                        $separada = explode("-", $fecha);
+                        $newFecha = $separada[2] . "/" . $separada[1] . "/" . $separada[0];
+
+                        echo "<p style='font-weight:bold;'>Reseña de " . $nombres[$i+1]['nombre'] . " hecha " . $newFecha . "</p>";
                         echo "<p>Valoración: " . $resenyas[$i]['puntuacion'] . " / 5</p>";
                         echo "<p>" . $resenyas[$i]['mensaje'] . "</p>";
                         echo "<hr>";
