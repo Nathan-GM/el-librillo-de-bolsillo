@@ -48,7 +48,9 @@
         ";
 
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['filtrar'])) {
-            $query = $query . " WHERE GeneroID LIKE '" . $_POST['opcion'] . "'";
+            if ($_POST['opcion'] != 0) {
+                $query = $query . " WHERE GeneroID LIKE '" . $_POST['opcion'] . "'";
+            }
         }
 
         $query = $query . " LIMIT $posicion, $itemsPerPage";
@@ -137,6 +139,7 @@
         <h2>Filtrar por género</h2>
         <form action="list.php" method="POST">
         <select name="opcion">
+            <option value="0">Todos</option>
             <?php
                 for ($i=0; $i < count($genres) ; $i++) { 
                     echo "<option value=" . $genres[$i]["id"] . ">";
