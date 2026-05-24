@@ -16,7 +16,7 @@
         <h1>Bienvenido al apartado de administrador <?php echo $user['Nombre']?></h1>
         <p>Desde está sección, podrás agregar, editar, eliminar o listar los productos.</p>
         <!-- Sección de tarjetas -->
-        <div class='cards'>
+        <div class='adminCards'>
             <!-- Listado de productos -->
             <div class='generalCard'>
                 <h2>Listado de articulos</h2>

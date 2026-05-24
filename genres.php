@@ -26,7 +26,7 @@
                 } else{
                     echo "<div class='cards'>";
                     foreach ($genres as $key => $value) {
-                        echo "<div class='generalCard' onclick='test(". $genres[$key]['id'] .")'>";
+                        echo "<div class='genreCard' onclick='test(". $genres[$key]['id'] .")'>";
                         echo "<h1>" . $genres[$key]['nombre'] . "</h1>";
                         echo "</div>";
                     }

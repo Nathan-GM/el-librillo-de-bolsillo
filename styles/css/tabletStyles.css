@@ -160,7 +160,7 @@
 
     /* FIN DE CONTENIDO */
 
-    /* LOGINCARD */
+    /* LOGINCARD Y GENERALCARD */
 
     .loginCard, .generalCard {
         display: flex;
@@ -225,5 +225,25 @@
     /* Se oculta el ultimo li que aquí no es necesario */
     footer > .menuNav > li:last-of-type {
         display: none;
+    }
+
+    .adminCards {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+
+    .genreCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-color: black;
+        border-radius: 2em;
+        background-color: lightgray;
+        padding: 5px;
+    }
+
+    .genreCard > h1{
+        padding: 15px;
     }
 }

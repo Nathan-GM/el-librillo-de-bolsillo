@@ -98,4 +98,46 @@
         display: inline;
     }
 
+    .cards {
+        display: flex;
+        flex-direction: row;
+        justify-items: center;
+        align-items: center;
+
+        gap: 5%;
+    }
+
+    .generalCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-color: black;
+        border-radius: 2em;
+        background-color: lightgray;
+        padding: 20px;
+    }
+
+    .adminCards {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+
+    .genreCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-color: black;
+        border-radius: 2em;
+        background-color: lightgray;
+        padding: 5px;
+    }
+
+    .genreCard:hover {
+        cursor: pointer;
+    }
+
+    .genreCard > h1{
+        padding: 15px;
+    }
 }
