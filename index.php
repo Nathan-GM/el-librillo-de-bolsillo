@@ -22,7 +22,7 @@
 ?>
 <main>
    <!-- Apartado de novedades -->
-   <section class='novedades'>
+   <section class='novedades' id='novedad'>
         <h2>Ultimas novedades</h2>
         <!-- Apartado donde se muestran los libros de novedades. -->
         <div class='librosN'>
@@ -78,7 +78,7 @@
    </section>
 
    <!-- Apartado de articulos destacados -->
-   <section class='destacando'>
+   <section class='destacando' id='destaca'>
         <h2>Destacando</h2>
         <!-- Apartado donde se muestran los libros de novedades. -->
         <div class='librosD'>
@@ -140,7 +140,53 @@
 ?>
 
 <script>
+    /** Función que permite ver un producto. */
     function ver(id) {
         window.location.href = `product.php?producto=${id}`;
     }
+
+    // Animaciones de JQuery para cuando la página haya cargado.
+    $(document).ready(function() {
+        // Se anima las secciones de novdad y destacado.
+        // Se hace que se muestre poco a poco el apartado de novedades.
+        $("#novedad").css("opacity", "0");
+        $("#destaca").css("display", "none");
+        $("#novedad").animate({
+            opacity: '0.2',
+        });
+        $("#novedad").animate({
+            opacity: '0.4',
+        });
+        $("#novedad").animate({
+            opacity: '0.6',
+        });
+        $("#novedad").animate({
+            opacity: '1',
+        });
+
+        // Se hace con destacado.
+        $("#destaca").fadeIn("slow");
+
+        // Función que hace grande la foto al pasar el ratón por encima
+        $(".libroN").hover(
+            function() {
+                $(this).children('img').css("width", "65%")
+                $(this).children('img').css("height", "65%")
+            },
+            function() {
+                $(this).children('img').css("width", "50%")
+                $(this).children('img').css("height", "50%")
+            }
+        )
+        $(".libroD").hover(
+            function() {
+                $(this).children('img').css("width", "65%")
+                $(this).children('img').css("height", "65%")
+            },
+            function() {
+                $(this).children('img').css("width", "50%")
+                $(this).children('img').css("height", "50%")
+            }
+        )
+    })
 </script>
