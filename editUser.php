@@ -97,7 +97,6 @@
 ?>
     <main>
         <section class="contenido">
-            <p><?php print_r($user)?></p>
             <h1>
                 Editando perfil de <?php echo $user['Nombre'];?>
             </h1>

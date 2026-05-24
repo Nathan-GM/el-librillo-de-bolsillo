@@ -130,7 +130,7 @@
 
                 // Se obtiene el email para sacar el nombre del usuario
                 $emails[$position] = $fila['email'];
-                if ($fila['email'] == $user['Email']) {
+                if (isset($user) && $fila['email'] == $user['Email']) {
                     $haHechoResenya = true;
                 }
             }

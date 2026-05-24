@@ -46,7 +46,7 @@
                 <label for="hamburguesa" class="fa-solid fa-ellipsis-vertical" id="icono"></label>
                 <ul class="menuMovil">
                     <li><a href="login.php">Mi cuenta</a></li>
-                    <li><a href="">Novedades</a></li>
+                    <li><a href="products.php">Novedades</a></li>
                     <li><a href="genres.php">Ver géneros</a></li>
                     <li><a href="">Reseñas</a></li>
                     <?php
@@ -59,7 +59,7 @@
                 <img src="public-files/imgs/logo.png" alt="" style='width:5%' id="goIndex">
                 <!-- Navegación de escritorio -->
                 <ul class="menuNav">
-                    <li><a href="">Novedades</a></li>
+                    <li><a href="products.php">Novedades</a></li>
                     <li><a href="genres.php">Ver géneros</a></li>
                     <li><a href="">Reseñas</a></li>
                     <?php
@@ -81,7 +81,7 @@
             
             <!-- Navegación en tablet. -->
             <ul class="tablet menuNavTablet">
-                <li>Novedades</li>
+                <li><a href="products.php">Novedades</a></li>
                 <li><a href="genres.php">Ver géneros</a></li>
                 <li>Reseñas</li>
                 <?php

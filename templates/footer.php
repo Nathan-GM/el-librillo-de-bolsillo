@@ -1,7 +1,7 @@
         <footer>
             <img src="public-files/imgs/logo.png" alt="" style='width:5%'>
             <ul class="menuNav">
-                <li>Novedades</li>
+                <li><a href="products.php">Novedades</a></li>
                 <li><a href="genres.php">Ver géneros</a></li>
                 <li>Reseñas</li>
                 <li>Preguntas Frecuentes</li>
