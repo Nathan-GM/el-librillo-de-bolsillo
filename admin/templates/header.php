@@ -45,9 +45,9 @@
                 <input type="checkbox" id="hamburguesa">
                 <label for="hamburguesa" class="fa-solid fa-ellipsis-vertical" id="icono"></label>
                 <ul class="menuMovil">
-                    <li><a href="">Mi cuenta</a></li>
-                    <li><a href="">Novedades</a></li>
-                    <li><a href="">Ver géneros</a></li>
+                    <li><a href="../login.php">Mi cuenta</a></li>
+                    <li><a href="../products.php">Novedades</a></li>
+                    <li><a href="../genres.php">Ver géneros</a></li>
                     <li><a href="">Reseñas</a></li>
                     <?php
                         if (isset($user) && $user['Rol'] == 'admin') {
@@ -59,8 +59,8 @@
                 <img src="../public-files/imgs/logo.png" alt="" style='width:5%' id="goIndex">
                 <!-- Navegación de escritorio -->
                 <ul class="menuNav">
-                    <li><a href="">Novedades</a></li>
-                    <li><a href="">Ver géneros</a></li>
+                    <li><a href="../products.php">Novedades</a></li>
+                    <li><a href="../genres.php">Ver géneros</a></li>
                     <li><a href="">Reseñas</a></li>
                     <?php
                         if (isset($user) && $user['Rol'] == 'admin') {
@@ -72,9 +72,7 @@
                 <div class="tablet">
                     <span class="fa-solid fa-user"></span>
                 </div>
-                <span class="fa-solid fa-magnifying-glass"></span>
-                <button id='cart'>Carrito</button>
-                <span class="fa-solid fa-cart-shopping"></span>
+                <button id='cart'>Carrito <span class="fa-solid fa-cart-shopping"></span></button>
                 <div class="pc">
                     <a href="../login.php"><span class="fa-solid fa-user"></span></a>
                 </div>
@@ -82,8 +80,8 @@
             
             <!-- Navegación en tablet. -->
             <ul class="tablet menuNavTablet">
-                <li>Novedades</li>
-                <li>Ver géneros</li>
+                <li><a href="../products.php">Novedades</a></li>
+                <li><a href="../genres.php">Ver géneros</a></li>
                 <li>Reseñas</li>
                 <?php
                     if (isset($user) && $user['Rol'] == 'admin') {
