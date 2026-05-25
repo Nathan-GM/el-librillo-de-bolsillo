@@ -80,11 +80,11 @@
                 // Si todo va bien, se mostrará el aviso
                 $error = "Se ha registrado correctamente.";
             }
-        } catch (mysqli_sql_exception $error) {
+        } catch (mysqli_sql_exception $errorMSQL) {
             // Se captura la excepción de mysqli.
-            $mensajeError = "Ha ocurrido un error: <br>";
-            $mensajeError =  $mensajeError . "Mensaje de error:" . $error->getMessage() ."<br>";
-            $mensajeError =  $mensajeError . "Numero de error:" . $error->getCode() ."<br>";
+            $error = "Ha ocurrido un error: <br>";
+            $error =  $error . "Mensaje de error:" . $errorMSQL->getMessage() ."<br>";
+            $error =  $error . "Numero de error:" . $errorMSQL->getCode() ."<br>";
         }
     }
 

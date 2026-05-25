@@ -1,5 +1,53 @@
 <?php
     include_once('./templates/header.php');
+
+    // Si se pulsa el botón de añadir al carrito
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
+        // Obtiene el carrito del usuario
+        $query = "SELECT * FROM carrito WHERE user_email = '" . $user['Email'] . "' and estado = 'pendiente'";
+        $cartResult = $databaseConnection->query($query);
+        $cart = $cartResult->fetch_assoc();
+        // Obtiene de ahi la ID del articulo
+        $idCarrito = $cart['id'];
+        $articuloId = $_POST['producto'];
+
+        // Comrpueba si el producto ya existe.
+        $query = "SELECT * FROM elementoscarrito where carritoId = '$idCarrito' AND articuloId = '$articuloId'";
+        $result = $databaseConnection->query($query);
+        $query = "";
+        // Si ya existe
+        if ($result->num_rows == 1) {
+            // Se actualiza su cantidad
+            $valueResult = $result->fetch_assoc();
+            $cantidad = $valueResult['cantidad'];
+            $nuevaCantidad = intval($cantidad) + 1;
+            $query = "UPDATE elementoscarrito SET cantidad = '$nuevaCantidad' where carritoId = '$idCarrito' and articuloId = '$articuloId'";
+        } else {
+            // Si no, se agrega el nuevo valor.
+            $query = "INSERT INTO elementoscarrito (carritoId, articuloId, cantidad)
+            VALUES ('$idCarrito', '$articuloId', '1')";
+        }
+        $result->free();
+
+        try {
+            // Se ejecuta
+            if (!$result = $databaseConnection->query($query)) {
+                // Si da error 1062 dará error por la clave primaria
+                if ($databaseConnection->errno == 1062) {
+                    $error = "Ha ocurrido un error con la clave primaria.";
+                }
+            } else {
+                // Si todo va bien, se mostrará el aviso
+                $error = "Se ha registrado correctamente.";
+            }
+        } catch (mysqli_sql_exception $errorMSQL) {
+            // Se captura la excepción de mysqli.
+            $error = "Ha ocurrido un error: <br>";
+            $error =  $error . "Mensaje de error:" . $errorMSQL->getMessage() ."<br>";
+            $error =  $error . "Numero de error:" . $errorMSQL->getCode() ."<br>";
+        }
+    }
+
     // Se crea la consulta de las novedades
     $consultaNovedades = "select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, a.portada, g.nombre as nombreGenero
     from articulos a 
@@ -61,10 +109,19 @@
                             <!-- Botones de acción -->
                             <button onclick="ver(<?php echo $fila['id']?>)">Ver</button>
                             <br>
-                            <button <?php if($fila['stock']<= 0) echo 'disabled'; ?>>
+                            <button <?php if($fila['stock']<= 0) echo 'disabled'; ?> <?php if(!isset($user) && $fila['stock'] > 0) echo "style='display:none;'";?>>
                                 <?php
                                 if ($fila['stock'] <= 0) { echo 'Actualmente agotado'; }
-                                else { echo 'Agregar al carrito.'; }
+                                else {
+                                    if(isset($user)) {
+                                        echo "<form action='index.php' method='post'>";
+                                        echo "<input type='text' value='" . $fila['id'] ."' hidden name='producto'>";
+                                        echo "<input type='submit' value='Agregar al carrito' name='add' style='background: none; border: none;'></input>";
+                                        echo "</form>";
+                                    } else {
+                                        echo "<button onclick='login()'>Inicia sesión para agregarlo al carrito</button>";
+                                    }
+                                 }
                                 ?>
                             </button>
                         </div>
@@ -117,10 +174,19 @@
                             <!-- Botones de acción -->
                             <button onclick="ver(<?php echo $fila['id']?>)">Ver</button>
                             <br>
-                            <button <?php if($fila['stock']<= 0) echo 'disabled'; ?>>
+                            <button <?php if($fila['stock']<= 0) echo 'disabled'; ?> <?php if(!isset($user) && $fila['stock'] > 0) echo "style='display:none;'"; ?>>
                                 <?php
                                 if ($fila['stock'] <= 0) { echo 'Actualmente agotado'; }
-                                else { echo 'Agregar al carrito.'; }
+                                else { 
+                                    if(isset($user)) {
+                                        echo "<form action='index.php' method='post'>";
+                                        echo "<input type='text' value='" . $fila['id'] ."' hidden name='producto'>";
+                                        echo "<input type='submit' value='Agregar al carrito' name='add' style='background: none; border: none;'></input>";
+                                        echo "</form>";
+                                    } else {
+                                        echo "<button onclick='login()'>Inicia sesión para agregarlo al carrito</button>";
+                                    }
+                                }
                                 ?>
                             </button>
                         </div>
@@ -143,6 +209,10 @@
     /** Función que permite ver un producto. */
     function ver(id) {
         window.location.href = `product.php?producto=${id}`;
+    }
+
+    function login() {
+        window.location.href = 'login.php';
     }
 
     // Animaciones de JQuery para cuando la página haya cargado.
@@ -170,22 +240,22 @@
         // Función que hace grande la foto al pasar el ratón por encima
         $(".libroN").hover(
             function() {
-                $(this).children('img').css("width", "65%")
-                $(this).children('img').css("height", "65%")
-            },
-            function() {
                 $(this).children('img').css("width", "50%")
                 $(this).children('img').css("height", "50%")
+            },
+            function() {
+                $(this).children('img').css("width", "40%")
+                $(this).children('img').css("height", "40%")
             }
         )
         $(".libroD").hover(
             function() {
-                $(this).children('img').css("width", "65%")
-                $(this).children('img').css("height", "65%")
-            },
-            function() {
                 $(this).children('img').css("width", "50%")
                 $(this).children('img').css("height", "50%")
+            },
+            function() {
+                $(this).children('img').css("width", "40%")
+                $(this).children('img').css("height", "40%")
             }
         )
     })
