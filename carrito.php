@@ -8,7 +8,11 @@
         $nuevaCantidad = intval($_POST['cantidad']) - 1;
         $idCarrito = $_POST['carritoId'];
         $articuloId = $_POST['articuloId'];
-        $q = "UPDATE elementoscarrito SET cantidad = '$nuevaCantidad' where carritoId = '$idCarrito' and articuloId = '$articuloId'";
+        if ($nuevaCantidad > 0) {
+            $q = "UPDATE elementoscarrito SET cantidad = '$nuevaCantidad' where carritoId = '$idCarrito' and articuloId = '$articuloId'";
+        } else {
+            $q = "DELETE FROM elementoscarrito WHERE carritoId = '$idCarrito' and articuloId = '$articuloId'";
+        }
         $databaseConnection->query($q);
     }
 
