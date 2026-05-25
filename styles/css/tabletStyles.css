@@ -246,4 +246,10 @@
     .genreCard > h1{
         padding: 15px;
     }
+
+    button {
+        padding: 10px;
+        border-radius: 15px;
+        background-color: #B7E4C7;
+    }
 }

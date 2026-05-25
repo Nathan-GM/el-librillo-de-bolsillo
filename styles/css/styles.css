@@ -326,3 +326,9 @@ footer > .menuNav > li > ul {
     padding: 10px;
     text-align: center;
 }
+
+button {
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #B7E4C7;
+}
