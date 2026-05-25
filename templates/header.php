@@ -72,8 +72,7 @@
                 <div class="tablet">
                     <a href="login.php"><span class="fa-solid fa-user"></span></a>
                 </div>
-                <button id='cart'>Carrito</button>
-                <span class="fa-solid fa-cart-shopping"></span>
+                <button id='cart'>Carrito <span class="fa-solid fa-cart-shopping"></span></button>
                 <div class="pc">
                     <a href="login.php"><span class="fa-solid fa-user"></span></a>
                 </div>
