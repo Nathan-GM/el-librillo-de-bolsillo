@@ -3,11 +3,8 @@
             <ul class="menuNav">
                 <li><a href="products.php">Novedades</a></li>
                 <li><a href="genres.php">Ver géneros</a></li>
-                <li>Reseñas</li>
-                <li>Preguntas Frecuentes</li>
-                <li>Contacto</li>
+                <li><a href="resenyas.php">Reseñas</a></li>
             </ul>
-            <span>Preguntas frecuentes</span>
             <img src="public-files/imgs/logo.png" alt="logo" style='width:5%'>
             <ul class="iconosContacto">
                 <li class="fa-brands fa-instagram"></li>

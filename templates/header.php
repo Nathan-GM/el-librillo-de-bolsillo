@@ -48,7 +48,7 @@
                     <li><a href="login.php">Mi cuenta</a></li>
                     <li><a href="products.php">Novedades</a></li>
                     <li><a href="genres.php">Ver géneros</a></li>
-                    <li><a href="">Reseñas</a></li>
+                    <li><a href="resenyas.php">Reseñas</a></li>
                     <?php
                         if (isset($user) && $user['Rol'] == 'admin') {
                             echo '<p><a href="admin.php">Administración</a></p>';
@@ -61,7 +61,7 @@
                 <ul class="menuNav">
                     <li><a href="products.php">Novedades</a></li>
                     <li><a href="genres.php">Ver géneros</a></li>
-                    <li><a href="">Reseñas</a></li>
+                    <li><a href="resenyas.php">Reseñas</a></li>
                     <?php
                         if (isset($user) && $user['Rol'] == 'admin') {
                             echo '<p><a href="admin.php">Administración</a></p>';
@@ -82,7 +82,7 @@
             <ul class="tablet menuNavTablet">
                 <li><a href="products.php">Novedades</a></li>
                 <li><a href="genres.php">Ver géneros</a></li>
-                <li>Reseñas</li>
+                <li><a href="resenyas.php">Reseñas</a></li>
                 <?php
                     if (isset($user) && $user['Rol'] == 'admin') {
                         echo '<p><a href="admin.php">Administración</a></p>';
