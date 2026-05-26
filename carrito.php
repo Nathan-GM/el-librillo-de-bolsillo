@@ -82,7 +82,6 @@
                     }
                 ?>
             </table>
-            <!-- TODO: llevar al pago de formulario. -->
             <button id='goToPayment' <?php if ($itemsNumber == 0) echo 'disabled' ?>>Procesar pago</button>
         </section>
     </main>

@@ -65,7 +65,6 @@
     <main>
         <section class='contenido'>
             <h1>Carritos de <?php echo $user['Nombre'] ?>:</h1>
-            <!-- TODO : AGREGAR FILTROS || Estado -->
             <table>
                 <?php
                     if ($totalCarritos == 0) {
