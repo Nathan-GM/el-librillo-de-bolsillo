@@ -1,36 +1,8 @@
 <?php
     include_once('./templates/header.php');
-?>
 
-<main>
-    <div class='contenido'>
-        <form action="register.php" method="post" class='registerCard' id='form'>
-            <div class='cards'>
-                <!-- TODO: AGREGAR VALIDADORES. -->
-                <div class='userDataCard'>
-                    <h2>Registrarse</h2>
-                    <p>Correo: <input type='email' name='email' id='email'></p>
-                    <p>Contraseña: <input type='password' name='password' id='password'></p> <!-- TODO: Agregar regex de contraseña. -->
-                    <p>Confirmar contraseña: <input type='password' name='confirmPassword' id='confirmPassword'></p>
-                </div>
-                <hr>
-                <div class='personalDataCard'>
-                    <h2>Datos personales</h2>
-                    <p>Nombre y apellidos: <input type='text' name='name' id='name'></p>
-                    <p>Dirección: <input type='text' name='address' id='address'></p>
-                    <p>Teléfono: <input type='text' name='number' id='number'></p> <!-- TODO: Regex para solo permitir números. -->
-                </div>
-            </div>
-            <input type="submit" value="Crear cuenta" name='register'>
-            <br>
-            <button id='goToLogin'><a href="login.php">¿Ya tienes cuenta? Inicia sesión</button></a>
-        </form>
-    </div>
-</main>
-
-
-<?php
     $error = '';
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
         // Se comprueban que existan los campos
         if (
@@ -65,7 +37,7 @@
                 $error = "Alguno de los campos no es correcto.";
             } else {
                 // Se crea la consulta para insertar los valores.
-                $consulta = "INSERT INTO usuarios (email, contrasenya, nombre, direccion, rol, telefono) VALUES ('$email', '$hashedPassword', '$name', '$address' ,'usuario', '$phone')";
+                $consulta = "INSERT INTO usuarios (email, contrasenya, nombre, direccion, rol, telefono) VALUES ('$email', '$hashedPassword', '$name', '$address' ,'usuario', '$phoneNumber')";
 
                 try {
                     // Se ejecuta
@@ -77,6 +49,8 @@
                     } else {
                         // Si todo va bien, se moverá al login.
                         $error = "Se ha registrado correctamente.";
+                        $createNewCartQuery = "INSERT INTO carrito (user_email, estado) VALUES ('" . $email . "', 'pendiente')";
+                        $result = $databaseConnection->query($createNewCartQuery);
                         header('Location: login.php');
                     }
                 } catch (mysqli_sql_exception $error) {
@@ -90,6 +64,106 @@
         echo "<p style='color: red;'>$error</p>";
     }
 
+?>
+
+<main>
+    <div class='contenido'>
+        <div class='registerCard'>
+            <form action="register.php" method="post" id='form'>
+                <div class='cards'>
+                    <div class='userDataCard'>
+                        <h2>Registrarse</h2>
+                        <p>Correo: <input type='email' name='email' id='email'></p>
+                        <p>Contraseña: <input type='password' name='password' id='password'></p>
+                        <p>Confirmar contraseña: <input type='password' name='confirmPassword' id='confirmPassword'></p>
+                    </div>
+                    <hr>
+                    <div class='personalDataCard'>
+                        <h2>Datos personales</h2>
+                        <p>Nombre y apellidos: <input type='text' name='name' id='name'></p>
+                        <p>Dirección: <input type='text' name='address' id='address'></p>
+                        <p>Teléfono: <input type='tel' name='number' id='number'></p>
+                    </div>
+                </div>
+                <input type="submit" value="Crear cuenta" name='register' id='register'>
+                <br>
+            </form>
+        <p id='error'><?php echo $error; ?></p>
+        <button id='validar'>Crear cuenta</button></a>
+        <button id='goToLogin'><a href="login.php">¿Ya tienes cuenta? Inicia sesión</button></a>
+        </div>
+    </div>
+</main>
+
+<?php
     // Se muestra el footer.
     include_once('./templates/footer.php');
 ?>
+?>
+
+
+<script>
+    // Se oculta el submit de registro.
+    document.getElementById("register").style.display = "none";
+
+    // Se obtiene el parrafo que mostrará el error.
+    var error = document.getElementById("error");
+
+    // Se comprueba si desde PHP se ha recibido un error.
+    var existeError = <?php
+        if ($error != "") {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    ?>
+    // Si el valor es cierto, su color pasa a error.
+    if (existeError) {
+        error.style.color = "red";
+    }
+
+    // Al botón de validar se le da la función que comprobará que todos los campos sean validos.
+    document.getElementById("validar").addEventListener("click", validar);
+
+    function validar() {
+        // Se obtiene el formulario
+        let formulario = document.getElementById("form");
+
+        // Y de ahi se obtienen todos sus campos.
+        let correo = formulario.email.value;
+        let contrasenya = formulario.password.value
+        let confirmarContrasenya = formulario.confirmPassword.value
+        let nombre = formulario.name.value;
+        let direccion = formulario.address.value;
+        let numeroTelefono = formulario.number.value;
+
+        // Se comprueba que ninguno este vacio
+        if (
+            (correo == null || correo == '') ||
+            (contrasenya == null || contrasenya == '') ||
+            (confirmarContrasenya == null || confirmarContrasenya == '') ||
+            (nombre == null || nombre == '') ||
+            (direccion == null || direccion == '') ||
+            (numeroTelefono == null || numeroTelefono == '')
+        ) {
+            error.innerHTML = "Formulario incompleto.";
+            error.style.color = "red";
+        } else {
+            // Si el correo no incluye @ no se considerá valido.
+            if (!correo.includes('@')) {
+                error.innerHTML = "Correo invalido.";
+                error.style.color = "red";
+                // Si las contraseñas no coinciden no se permite continuar
+            } else if (contrasenya != confirmarContrasenya) {
+                error.innerHTML = "Las contraseñas no coinciden.";
+                error.style.color = "red";
+                // Si el numero de telefono no se considera valido se avisa al usuario
+            } else if (!numeroDeTelefono.test(numeroTelefono)) {
+                error.innerHTML = "El número de teléfono no es valido.";
+                error.style.color = "red";
+            } else {
+                $("#register").click();
+            }
+        }
+    }
+</script>

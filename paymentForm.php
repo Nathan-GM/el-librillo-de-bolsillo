@@ -118,24 +118,77 @@
 
 <main>
     <section class='contenido'>
-        <div>
-        <!-- TODO: Agregar validadores -->
-        <form action="paymentForm.php" method="post" class="loginCard">
-            <h1>Formulario de pago</h1>
-            <p>Productos a comprar: <?php echo $itemNumber;?> - Total a pagar: <?php echo $totalPrice?>€</p>
-            <p>Número de la tarjeta: <input type="number" name="cardNumber" id="cardNumber"></p>
-            <p>Fecha expiración: <input type="text" name="expiration" id="expiration"></p>
-            <p>Número privado<input type="number" name="numeroPrivado" id="numeroPrivado"></p>
-            <input type="submit" value="Finalizar compra de <?php echo $totalPrice?>€" name='payment'>
-        </form>
+        <div class='loginCard'>
+            <form action="paymentForm.php" method="post" id='formulario'>
+                <h1>Formulario de pago</h1>
+                <p>Productos a comprar: <?php echo $itemNumber;?> - Total a pagar: <?php echo $totalPrice?>€</p>
+                <p>Número de la tarjeta: <input type="number" name="cardNumber" id="cardNumber"></p>
+                <p>Fecha expiración: <input type="text" name="expiration" id="expiration"></p>
+                <p>Número privado<input type="number" name="numeroPrivado" id="numeroPrivado"></p>
+                <input type="submit" value="Finalizar compra de <?php echo $totalPrice?>€" name='payment' id='enviar'>
+            </form>
+            <button id='validar'>Finalizar compra de <?php echo $totalPrice?>€</button>
+            <p id='error'><?php echo $error; ?></p>
         </div>
     </section>
-
-    <?php
-        echo "<h1>$error</h1>";
-    ?>
 </main>
 
 <?php
     include_once("./templates/footer.php");
 ?>
+
+<script>
+    // Se oculta el botón de submit y se usa el botón para hacer validadores.
+    document.getElementById("enviar").style.display = "none";
+    var error = document.getElementById("error");
+
+    // Se comprueba si desde PHP se ha recibido un error.
+    var existeError = <?php
+        if ($error != "") {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    ?>  
+    // Si el valor es cierto, su color pasa a error.
+    if (existeError) {
+        error.style.color = "red";
+    }
+
+    // Al botón de validar se le da la función de validar
+    document.getElementById("validar").addEventListener("click", validar);
+
+    function validar() {
+        error.innerHTML = '';
+        // se obtienen los valores del formulario.
+        let formulario = document.getElementById("formulario");
+        let numTarjeta = formulario.cardNumber.value;
+        let expiracion = formulario.expiration.value;
+        let numeroPrivado = formulario.numeroPrivado.value;
+
+        // Se comprueba que no sea nulo
+        if (
+            (numTarjeta == null || numTarjeta == '') ||
+            (expiracion == null || expiracion == '') ||
+            (numeroPrivado == null || numeroPrivado == '')
+        ) {
+            error.innerHTML = "Formulario incompleto.";
+            error.style.color = "red";
+        } else {
+            // Despues que coincidan con los regex.
+            if (!numeroTarjeta.test(numTarjeta)) {
+                error.innerHTML = "Numero de tarjeta erroneo.";
+                error.style.color = "red";
+            } else if (!fechaExpiracion.test(expiracion)) {
+                error.innerHTML = "Expiración erronea.";
+                error.style.color = "red";
+            } else if (!numPrivadoTarjeta.test(numeroPrivado)) {
+                error.innerHTML = "Numero privado erroneo.";
+                error.style.color = "red";
+            } else {
+                // Si cumple todo, se envia e inicia el submit.
+                $("#enviar").click();
+            }
+        }
+    }
+</script>

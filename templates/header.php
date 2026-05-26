@@ -14,7 +14,8 @@
         <link rel="stylesheet" href="./styles/css/solid.css">
 
         <!-- Ficheros JS -->
-         <script src="./js/jquery-4.0.0.min.js"></script>
+        <script src="./js/jquery-4.0.0.min.js"></script>
+        <script src="./js/expresiones.js"></script>
 
 
         <!-- PHP - se inicia la sesión y se obtiene al usuario. -->
@@ -71,9 +72,10 @@
 
                 <div class="tablet">
                     <a href="login.php"><span class="fa-solid fa-user"></span></a>
+                    <button id='cart'>Carrito <span class="fa-solid fa-cart-shopping"></span></button>
                 </div>
-                <button id='cart'>Carrito <span class="fa-solid fa-cart-shopping"></span></button>
                 <div class="pc">
+                    <button onclick='goToCartPage()'>Carrito <span class="fa-solid fa-cart-shopping"></span></button>
                     <a href="login.php"><span class="fa-solid fa-user"></span></a>
                 </div>
             </nav>
