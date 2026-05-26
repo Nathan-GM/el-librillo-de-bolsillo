@@ -46,6 +46,11 @@
                 <p>¿Algún producto ya no está disponible? Puedes eliminarlo desde esta sección</p>
                 <button id='remove'>Eliminar productos.</button>
             </div>
+            <div class='generalCard'>
+                <h2>Cambiar usuario a administrador.</h2>
+                <p>¿Necesitas agregar un usuario como admiminstrador? Actualiza el rol desde aqui.</p>
+                <button id='role'>Cambiar roles.</button>
+            </div>
         </div>
     </section>
 </main>
@@ -60,6 +65,7 @@
     document.getElementById("addGenre").addEventListener('click', goToAddGenre, false);
     document.getElementById("edit").addEventListener('click', goToEditProduct, false);
     document.getElementById("remove").addEventListener('click', goToDeleteProduct, false);
+    document.getElementById("role").addEventListener('click', goToEditUserRole, false);
 
     function goToList() {
         window.location.href = 'admin/list.php';
@@ -75,5 +81,8 @@
     }
     function goToDeleteProduct() {
         window.location.href = 'admin/removeProduct.php';
+    }
+    function goToEditUserRole() {
+        window.location.href = 'admin/userRole.php';
     }
 </script>
