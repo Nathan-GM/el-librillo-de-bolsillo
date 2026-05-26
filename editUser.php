@@ -123,7 +123,7 @@
                 <input type="submit" value="Actualizar cuenta" name='update'>
                 <br>
 
-                <button>Volver atras.</button>
+                <button>Restaurar valores.</button>
             </form>
             <?php echo $error?>
         </section>
