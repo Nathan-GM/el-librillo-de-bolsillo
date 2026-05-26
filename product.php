@@ -103,7 +103,7 @@
         $query = "SELECT a.Nombre, a.Descripcion, a.Autor, a.Editorial, a.Stock, a.Precio, a.portada, a.id, g.Nombre as Genero 
         FROM Articulos a
         INNER JOIN generos g on g.id = a.GeneroID
-        where a.id = '" . $producto . "'";
+        where a.id = '" . $producto . "' and deleted = 0";
         $result = $databaseConnection->query($query);
 
         // Si la fila no es igual a 1, no se ha encontrado el producto.

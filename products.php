@@ -44,15 +44,16 @@
     $query = "
     select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, a.portada, g.nombre as nombreGenero
     from articulos a 
-    join generos g on a.GeneroID = g.ID";
+    join generos g on a.GeneroID = g.ID
+    where a.deleted = 0";
 
     if (isset($_GET['genero'])) {
-        $query = $query . " WHERE a.GeneroID = '" . $_GET['genero'] . "'";
+        $query = $query . " AND a.GeneroID = '" . $_GET['genero'] . "'";
     }
 
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['filtrar'])) {
         if ($_POST['opcion'] != 0) {
-            $query = $query . " WHERE GeneroID LIKE '" . $_POST['opcion'] . "'";
+            $query = $query . " AND GeneroID LIKE '" . $_POST['opcion'] . "'";
         }
     }
 
