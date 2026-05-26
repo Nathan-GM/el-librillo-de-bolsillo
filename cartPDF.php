@@ -24,6 +24,15 @@
         // Referencia: https://www.fpdf.org/en/tutorial/tuto5.htm
         function BasicTable($db, $cartId) {
 
+            $query = "SELECT * FROM carrito where id = '$cartId'";
+            $check = $db->query($query);
+            $checkValue = $check->fetch_assoc();
+
+            if ($checkValue['user_email'] != $_SESSION['user']) {
+                header("Location: index.php");
+                exit;
+            }
+
             $this->SetFont('Arial', 'B', 16); // Se indica la fuenta Arial, Negrita y Tamaño 15
             $query = "SELECT a.Nombre, a.Precio, cantidad 
             FROM elementosCarrito ec
