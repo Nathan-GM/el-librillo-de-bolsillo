@@ -2,20 +2,29 @@
     include_once('./templates/header.php');
     // Se comprueba que exista un usuario y que sea admin.
     if(!isset($user)) {
-        header("Location: login.php");
+        header("Location: ../login.php");
         exit;
     }
+    // Si el usuario no es admin se le manda a la página de inicio.
     if($user['Rol'] != 'admin') {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
 
+    // Se crea la variable de error
     $error = "";
 
+    /**
+     * Función que borra el fichero del articulo
+     * @param $file: nombre del fichero a borrar.
+     */
     function borrarFichero($file){
+        // Localización de ficheros
         $fileDirectory = "../public-files/books-imgs/";
+        // Se crea la ruta al producto exacto
         $ruta = $fileDirectory . $file;
-        if (file_exists($ruta)) {
+        // si el fichero existe, se usa unlink para borrarlo.
+        if (is_file($ruta) && file_exists($ruta)) {
             unlink($ruta);
         }
     }
@@ -23,11 +32,13 @@
 
 <main>
     <section class="contenido">
+        <!-- Form para borrar productos. -->
         <form action="removeProduct.php" method="post" class='registerCard' id="delete">
             <h1>Borrar productos</h1>
             <select name="articulo" id="articulo">
                 <?php
-                    $query = "SELECT ID, Nombre FROM articulos";
+                    // Se obtienen la ID y nombre de todos los productos para mostrarlas en un select.
+                    $query = "SELECT ID, Nombre FROM articulos where deleted like 0";
                     try {
                         $result = $databaseConnection->query($query);
                         while ($fila = $result->fetch_assoc()) {
@@ -46,7 +57,9 @@
         </form>
 
         <?php
+        // Si se ha pulsado borrar
         if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
+            // Se comprueba que exista un articulo.
             if (!isset($_POST['articulo'])) {
                 $error = "No se ha indicado ningun articulo";
             } else {
@@ -57,8 +70,8 @@
                     $values = $result->fetch_assoc();
                     $portada = $values['Portada'];
 
-                    // Se elimina el articulo
-                    $query = "DELETE FROM articulos WHERE ID like '" . $_POST['articulo'] . "'";
+                    // Se elimina el articulo marcandolo como eliminado
+                    $query = "UPDATE articulos SET deleted = '1' WHERE ID like '" . $_POST['articulo'] . "'";
                     $databaseConnection->query($query);
 
                     // Se elimina el fichero

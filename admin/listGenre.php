@@ -2,11 +2,12 @@
     include_once('./templates/header.php');
     // Se comprueba que exista un usuario y que sea admin.
     if(!isset($user)) {
-        header("Location: login.php");
+        header("Location: ../login.php");
         exit;
     }
+    // Si el usuario no es admin se le manda a la página de inicio.
     if($user['Rol'] != 'admin') {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
 
