@@ -52,6 +52,7 @@
     $consultaNovedades = "select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, a.portada, g.nombre as nombreGenero
     from articulos a 
     join generos g on a.GeneroID = g.ID 
+    where a.deleted like 0
     ORDER BY a.id ASC 
     LIMIT 4";
 
@@ -59,7 +60,7 @@
     $consultaDestacando = "select a.id, a.nombre, a.stock, a.autor, a.editorial, a.precio, a.portada, g.nombre as nombreGenero
     from articulos a
     join generos g on a.GeneroID = g.ID
-    where a.stock > 0
+    where a.stock > 0 && a.deleted like 0
     ORDER BY a.stock ASC
     limit 4";
 
@@ -68,134 +69,111 @@
     $result = $databaseConnection->query($consultaNovedades);
     $resultD = $databaseConnection->query($consultaDestacando);
 ?>
+
+<!-- Ref Carousel: https://fancyapps.com/carousel/plugins/sync/ -->
+
+<!-- CSS de Carousel -->
+<link 
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.css"
+>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.arrows.css"
+/> 
+<!-- JavaScript de Carousel -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.arrows.umd.js"></script>
+
 <main>
    <!-- Apartado de novedades -->
    <section class='novedades' id='novedad'>
         <h2>Ultimas novedades</h2>
         <!-- Apartado donde se muestran los libros de novedades. -->
         <div class='librosN'>
-            <!-- TODO: Actualizar para usar Carrousel de JS. -->
-            <span class='flechaIzquierda'><</span>
-            <?php
-                // Si no hay resultados no hay novedades y se meustra el aviso.
-                if ($result->num_rows < 0) {
-                    echo '<h2>No se han encontrado novedades</h2>';
-                } else {
-                    // Se recorre cada resultado
-                    while ($fila = $result->fetch_assoc()) {
-                    ?>
-                        <!-- Contenedor del libro -->
-                        <div class='libroN'>
-                            <h3>
-                                <?php echo $fila['nombre'];?>
-                            </h3>
-
-                             <?php
-                                if ($fila['portada'] == '') {
-                                    echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
-                                } else {
-                                    echo "<img src='public-files/books-imgs/". $fila['portada'] ."' alt='Portada del libro'>";
-                                }
-                             ?>
-                            <h3>
-                                <?php echo $fila['nombre'];?>
-                            </h3>
-                            <h4>
-                                Género: <?php echo $fila['nombreGenero'];?>
-                                <br>
-                                Precio: <?php echo $fila['precio'];?>€
-                            </h4>
-
-                            <!-- Botones de acción -->
-                            <button onclick="ver(<?php echo $fila['id']?>)">Ver</button>
-                            <br>
-                            <button <?php if($fila['stock']<= 0) echo 'disabled'; ?> <?php if(!isset($user) && $fila['stock'] > 0) echo "style='display:none;'";?>>
-                                <?php
-                                if ($fila['stock'] <= 0) { echo 'Actualmente agotado'; }
-                                else {
-                                    if(isset($user)) {
-                                        echo "<form action='index.php' method='post'>";
-                                        echo "<input type='text' value='" . $fila['id'] ."' hidden name='producto'>";
-                                        echo "<input type='submit' value='Agregar al carrito' name='add' style='background: none; border: none;'></input>";
-                                        echo "</form>";
-                                    } else {
-                                        echo "<button onclick='login()'>Inicia sesión para agregarlo al carrito</button>";
-                                    }
-                                 }
-                                ?>
-                            </button>
-                        </div>
-                    <?php
-                    }
-                }
-                $result-> free();
-            ?>
-            <span class="flechaDerecha">></span>
+            <div class='f-carousel' id='carouselNovedad'>
+                 <?php
+                     while ($fila = $result->fetch_assoc()) {
+                        // Por cada producto se crea un div de carousel que contendrá
+                        // El producto que se tenga ahora mismo en fila.
+                        echo "<div class='f-carousel__slide'>";
+                            echo "<h2>" . $fila['nombre'] . "</h2>";
+                            if ($fila['portada'] == '') {
+                                echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
+                            } else {
+                                echo "<img src='public-files/books-imgs/". $fila['portada'] ."' alt='Portada del libro'>";
+                            }
+                            echo "<h3>" . $fila['nombre'] . "</h3>";
+                            echo "<h4>";
+                                echo "Género: " . $fila['nombreGenero'];
+                                echo "<br>";
+                                echo "Precio: " . $fila['precio'] . "€";
+                            echo "</h4>";
+                            echo "<button onclick='ver(". $fila['id'] .")'>Ver</button>";
+                            echo "<br>";
+                            if ($fila['stock']<= 0) {
+                                echo "<button disabled> Actualmente agotado</button>";
+                            }
+                            else if ($fila['stock'] > 0 && !isset($user)) {
+                                echo "<button onclick='login()'>Inicia sesión para agregarlo al carrito</button>";
+                            } else {
+                                echo "<form action='index.php' method='post'>";
+                                echo "<input type='text' value='" . $fila['id'] ."' hidden name='producto'>";
+                                echo "<button>";
+                                echo "<input type='submit' value='Agregar al carrito' name='add' style='background: none; border: none;'></input>";
+                                echo "</form>";
+                                echo "</button>";
+                            }
+                        echo "</div>";
+                     }
+                 ?>
+            </div>
         </div>
    </section>
 
    <!-- Apartado de articulos destacados -->
    <section class='destacando' id='destaca'>
         <h2>Destacando</h2>
-        <!-- Apartado donde se muestran los libros de novedades. -->
+        <!-- Apartado donde se muestran los libros destacados. -->
         <div class='librosD'>
-            <!-- TODO: Actualizar para usar Carrousel de JS. -->
-            <span class='flechaIzquierda'><</span>
-            <?php
-                // Si no hay resultados no hay novedades y se meustra el aviso.
-                if ($resultD->num_rows < 0 || $resultD->num_rows == 0) {
-                    echo '<h2>No se han encontrado novedades</h2>';
-                } else {
-                    // Se recorre cada resultado
-                    while ($fila = $resultD->fetch_assoc()) {
-                    ?>
-                        <!-- Contenedor del libro -->
-                        <div class='libroD'>
-                            <h3>
-                                <?php echo $fila['nombre'];?>
-                            </h3>
-
-                            <?php
-                                if ($fila['portada'] == '') {
-                                    echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
-                                } else {
-                                    echo "<img src='public-files/books-imgs/". $fila['portada'] ."' alt='Portada del libro'>";
-                                }
-                             ?>
-                            <h3>
-                                <?php echo $fila['nombre'];?>
-                            </h3>
-                            <h4>
-                                Género: <?php echo $fila['nombreGenero'];?>
-                                <br>
-                                Precio: <?php echo $fila['precio'];?>€
-                            </h4>
-
-                            <!-- Botones de acción -->
-                            <button onclick="ver(<?php echo $fila['id']?>)">Ver</button>
-                            <br>
-                            <button <?php if($fila['stock']<= 0) echo 'disabled'; ?> <?php if(!isset($user) && $fila['stock'] > 0) echo "style='display:none;'"; ?>>
-                                <?php
-                                if ($fila['stock'] <= 0) { echo 'Actualmente agotado'; }
-                                else { 
-                                    if(isset($user)) {
-                                        echo "<form action='index.php' method='post'>";
-                                        echo "<input type='text' value='" . $fila['id'] ."' hidden name='producto'>";
-                                        echo "<input type='submit' value='Agregar al carrito' name='add' style='background: none; border: none;'></input>";
-                                        echo "</form>";
-                                    } else {
-                                        echo "<button onclick='login()'>Inicia sesión para agregarlo al carrito</button>";
-                                    }
-                                }
-                                ?>
-                            </button>
-                        </div>
-                    <?php
-                    }
-                }
-                $resultD-> free();
-            ?>
-            <span class="flechaDerecha">></span>
+            <div class='f-carousel' id='carouselDestacado'>
+                 <?php
+                     while ($fila = $resultD->fetch_assoc()) {
+                        // Se crea el div del carousel.
+                        echo "<div class='f-carousel__slide'>";
+                            // Dentro del div agregamos todos los datos del producto.
+                            echo "<h2>" . $fila['nombre'] . "</h2>";
+                            if ($fila['portada'] == '') {
+                                echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
+                            } else {
+                                echo "<img src='public-files/books-imgs/". $fila['portada'] ."' alt='Portada del libro'>";
+                            }
+                            echo "<h3>" . $fila['nombre'] . "</h3>";
+                            echo "<h4>";
+                                echo "Género: " . $fila['nombreGenero'];
+                                echo "<br>";
+                                echo "Precio: " . $fila['precio'] . "€";
+                            echo "</h4>";
+                            echo "<button onclick='ver(". $fila['id'] .")'>Ver</button>";
+                            echo "<br>";
+                            if ($fila['stock']<= 0) {
+                                echo "<button disabled> Actualmente agotado</button>";
+                            }
+                            else if ($fila['stock'] > 0 && !isset($user)) {
+                                echo "<button onclick='login()'>Inicia sesión para agregarlo al carrito</button>";
+                            } else {
+                                echo "<form action='index.php' method='post'>";
+                                echo "<input type='text' value='" . $fila['id'] ."' hidden name='producto'>";
+                                echo "<button>";
+                                echo "<input type='submit' value='Agregar al carrito' name='add' style='background: none; border: none;'></input>";
+                                echo "</form>";
+                                echo "</button>";
+                            }
+                        echo "</div>";
+                     }
+                 ?>
+            </div>
         </div>
    </section>
    <br>
@@ -211,6 +189,7 @@
         window.location.href = `product.php?producto=${id}`;
     }
 
+    /** Función que manda a los usuarios al login. */
     function login() {
         window.location.href = 'login.php';
     }
@@ -238,25 +217,24 @@
         $("#destaca").fadeIn("slow");
 
         // Función que hace grande la foto al pasar el ratón por encima
-        $(".libroN").hover(
+        $(".f-carousel__slide").children('img').hover(
             function() {
-                $(this).children('img').css("width", "50%")
-                $(this).children('img').css("height", "50%")
+                $(this).css("width", "50%")
+                $(this).css("height", "60%")
             },
             function() {
-                $(this).children('img').css("width", "40%")
-                $(this).children('img').css("height", "40%")
-            }
-        )
-        $(".libroD").hover(
-            function() {
-                $(this).children('img').css("width", "50%")
-                $(this).children('img').css("height", "50%")
-            },
-            function() {
-                $(this).children('img').css("width", "40%")
-                $(this).children('img').css("height", "40%")
+                $(this).css("width", "45%")
+                $(this).css("height", "55%")
             }
         )
     })
+
+    // Script Carousel de novedades. Se encarga de iniciar las flechas de navegación.
+    Carousel(document.getElementById("carouselNovedad"), {}, {
+        Arrows
+    }).init();
+    Carousel(document.getElementById("carouselDestacado"), {}, {
+        Arrows
+    }).init();
 </script>
+

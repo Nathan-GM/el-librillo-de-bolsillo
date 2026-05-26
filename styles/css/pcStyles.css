@@ -146,4 +146,36 @@
         border-radius: 15px;
         background-color: #B7E4C7;
     }
+
+    table {
+        background-color: #95D5B2;
+    }
+    
+    /* Ajustes del Carousel */
+    /* REF: https://fancyapps.com/carousel/plugins/sync/ */
+
+    #carouselNovedad, #carouselDestacado {
+        --f-carousel-gap: 10px;
+        --f-carousel-slide-width: 100%;
+        --f-carousel-slide-padding: 30px;
+    
+        margin: 5px 0px;
+    }
+
+    .f-carousel__slide > img {
+        width: 45%;
+        height: 55%;
+    }
+
+    /* Se le da un padding al botón */
+    .f-carousel__slide > button {
+        padding: 10px;
+        border-radius: 15px;
+        background-color: #B7E4C7;
+        margin: 5px;
+    }
+
+    .f-carousel__slide > button:nth-child(5) {
+        width: 40%;
+    }
 }

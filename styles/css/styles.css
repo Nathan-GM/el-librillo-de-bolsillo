@@ -97,7 +97,7 @@ nav > button {
 }
 
 /* Se le da fondos a todos los apartados y se muestran en filas. */
-.librosN, .librosD, .librosO {
+.librosN, .librosD, .librosO, .libros {
     background-color: #95D5B2;
     display: flex;
     flex-direction: row;
@@ -331,4 +331,39 @@ button {
     padding: 10px;
     border-radius: 15px;
     background-color: #B7E4C7;
+}
+
+select {
+    padding: 10px;
+    margin: 10px;
+}
+
+table {
+    background-color: #95D5B2;
+}
+
+/* Ajustes del Carousel */
+#carouselNovedad, #carouselDestacado {
+    --f-carousel-gap: 10px;
+    --f-carousel-slide-width: 100%;
+    --f-carousel-slide-padding: 30px;
+
+    margin: 7px 0px;
+  }
+
+.f-carousel__slide > img {
+width: 50%;
+height: 60%;
+}
+
+/* Se le da un padding al botón */
+.f-carousel__slide > button {
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #B7E4C7;
+    margin: 5px;
+}
+
+.f-carousel__slide > button:nth-child(5) {
+    width: 30%;
 }
