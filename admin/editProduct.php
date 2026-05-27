@@ -189,80 +189,82 @@
         ?>
 
         <!-- Formulario de edición de articulo -->
-        <form action="editProduct.php" method="post" class="registerCard" id="editForm" enctype="multipart/form-data">
-            <?php
-                if ($articulo != null) {
-                    // Se obtienen todos los géneros para poder modificar el género
-                    // del articulo mediante un select.
-                    $genres = [];
-                    try {
-                        $query = "SELECT * FROM generos";
-                        $genreResult = $databaseConnection->query($query);
-                        $count = 0;
-                        while ($fila = $genreResult->fetch_assoc()) {
-                            $tmp = [];
-                            $tmp['id'] = $fila["ID"];
-                            $tmp['nombre'] = $fila["Nombre"];
-                            $genres[$count] = $tmp;
-                            $count = $count + 1;
+        <div class="registerCard" id="editForm">
+            <form action="editProduct.php" method="post" class="registerCard" enctype="multipart/form-data" id='productoForm'>
+                <?php
+                    if ($articulo != null) {
+                        // Se obtienen todos los géneros para poder modificar el género
+                        // del articulo mediante un select.
+                        $genres = [];
+                        try {
+                            $query = "SELECT * FROM generos";
+                            $genreResult = $databaseConnection->query($query);
+                            $count = 0;
+                            while ($fila = $genreResult->fetch_assoc()) {
+                                $tmp = [];
+                                $tmp['id'] = $fila["ID"];
+                                $tmp['nombre'] = $fila["Nombre"];
+                                $genres[$count] = $tmp;
+                                $count = $count + 1;
+                            }
+                        } catch (mysqli_sql_exception $e) {
+                            $error = "Ha ocurrido el siguiente error: " . $e->getMessage();
                         }
-                    } catch (mysqli_sql_exception $e) {
-                        $error = "Ha ocurrido el siguiente error: " . $e->getMessage();
+
+                        echo "<h1>Editando el articulo " . $articulo['Nombre'] . "</h1>";
+
+                        // Titulo del articulo
+                        echo "
+                        <label for='title'>Titulo del producto</label>
+                        <input type='text' name='title' id='title' value='" . $articulo['Nombre'] ."'> <br>";
+
+                        // Descripcion del articulo
+                        echo "
+                        <label for='description'>Descripción del producto</label>
+                        <input type='text' name='description' id='description' value='" . $articulo['Descripcion'] ."'> <br>";
+
+                        // Stock del articulo
+                        echo "
+                        <label for='stock'>Stock del producto disponible</label>
+                        <input type='number' name='stock' id='stock' value='" . $articulo['Stock'] ."'> <br>";
+
+                        // Autor del articulo
+                        echo "
+                        <label for='autor'>Autor del producto</label>
+                        <input type='text' name='autor' id='autor' value='" . $articulo['Autor'] ."'> <br>";
+
+                        // Editorial del articulo
+                        echo "
+                        <label for='editorial'>Editorial a la que pertenece</label>
+                        <input type='text' name='editorial' id='editorial' value='" . $articulo['Editorial'] ."'> <br>";
+
+                        // Precio del articulo
+                        echo "
+                        <label for='price'>Precio del producto</label>
+                        <input type='number' name='price' id='price' step='0.01' value='" . $articulo['Precio'] ."'> <br>";
+
+                        // Género del articulo.
+                        echo "<label for='genre'>Genero al que pertenece</label>";
+                        echo "<select name='genre' id='genre'>";
+                        for ($i=0; $i < count($genres) ; $i++) { 
+                            echo "<option value=" . $genres[$i]["id"] . ">";
+                            echo $genres[$i]["nombre"];
+                            echo "</option>";
+                        }
+                        echo "</select> <br>";
+
+                        // Portada del articulo
+                        echo "
+                        <label for='portada'>Portada del producto</label>
+                        <input type='file' name='portada' id='portada' accept='.jpg, .png, .jpeg'><br>";
+
+                        echo '<input type="submit" value="Actualizar" name="update" id="editarProducto" >';
                     }
-
-                    echo "<h1>Editando el articulo " . $articulo['Nombre'] . "</h1>";
-
-                    // Titulo del articulo
-                    echo "
-                    <label for='title'>Titulo del producto</label>
-                    <input type='text' name='title' id='title' value='" . $articulo['Nombre'] ."'> <br>";
-
-                    // Descripcion del articulo
-                    echo "
-                    <label for='description'>Descripción del producto</label>
-                    <input type='text' name='description' id='description' value='" . $articulo['Descripcion'] ."'> <br>";
-
-                    // Stock del articulo
-                    echo "
-                    <label for='stock'>Stock del producto disponible</label>
-                    <input type='number' name='stock' id='stock' value='" . $articulo['Stock'] ."'> <br>";
-
-                    // Autor del articulo
-                    echo "
-                    <label for='autor'>Autor del producto</label>
-                    <input type='text' name='autor' id='autor' value='" . $articulo['Autor'] ."'> <br>";
-
-                    // Editorial del articulo
-                    echo "
-                    <label for='editorial'>Editorial a la que pertenece</label>
-                    <input type='text' name='editorial' id='editorial' value='" . $articulo['Editorial'] ."'> <br>";
-
-                    // Precio del articulo
-                    echo "
-                    <label for='price'>Precio del producto</label>
-                    <input type='number' name='price' id='price' step='0.01' value='" . $articulo['Precio'] ."'> <br>";
-
-                    // Género del articulo.
-                    echo "<label for='genre'>Genero al que pertenece</label>";
-                    echo "<select name='genre' id='genre'>";
-                    for ($i=0; $i < count($genres) ; $i++) { 
-                        echo "<option value=" . $genres[$i]["id"] . ">";
-                        echo $genres[$i]["nombre"];
-                        echo "</option>";
-                    }
-                    echo "</select> <br>";
-
-                    // Portada del articulo
-                    echo "
-                    <label for='portada'>Portada del producto</label>
-                    <input type='file' name='portada' id='portada' accept='image/png, image/jpeg'><br>";
-
-                    echo '<input type="submit" value="Actualizar" name="update">';
-                }
-
-                echo "<h1 id='error'>$error</h1>";
-            ?>
-        </form>
+                ?>
+            </form>
+            <p id='error'><?php echo $error; ?></p>
+            <button id='validar'>Editar producto</button>
+        </div>
     </section>
 </main>
 
@@ -284,7 +286,85 @@
         document.getElementById("selectArticle").style.display = "none";
     }
 
-    // Se le da color rojo al texto de error.
-    document.getElementById("error").style.color = "red";
+     // Se obtiene el parrafo que mostrará el error.
+     var error = document.getElementById("error");
+
+    // Se comprueba si desde PHP se ha recibido un error.
+    var existeError = <?php
+        if ($error != "") {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    ?>
+    // Si el valor es cierto, su color pasa a error.
+    if (existeError) {
+        error.style.color = "red";
+    }
+
+    // Se oculta el submit de editar producto.
+    document.getElementById('editarProducto').style.display = 'none';
+
+    // Al botón de validar se le da la función que comprobará que todos los campos sean validos.
+    document.getElementById("validar").addEventListener("click", validar);
+
+    function validar() {
+        // Se obtiene el formulario
+        let formulario = document.getElementById("productoForm");
+
+        // Y de ahi se obtienen todos sus campos.
+        let titulo = formulario.title.value;
+        let descripcion = formulario.description.value;
+        let stock = formulario.stock.value;
+        let autor = formulario.autor.value;
+        let editorial = formulario.editorial.value;
+        let precio = formulario.price.value;
+        let genero = formulario.genre.value;
+        let portada = formulario.portada.value;
+
+        // Se comprueba que ninguno este vacio
+        if (
+            (titulo == null || titulo == '') ||
+            (descripcion == null || descripcion == '') ||
+            (stock == null || stock == '') ||
+            (autor == null || autor == '') ||
+            (editorial == null || editorial == '') ||
+            (precio == null || precio == '') ||
+            (genero == null) 
+        ) {
+            error.innerHTML = "Formulario incompleto.";
+            error.style.color = "red";
+        } else {
+            // Si el precio es menor a 0 no es valido
+            if (precio < 0.00) {
+                error.innerHTML = "Precio invalido.";
+                error.style.color = "red";
+            }
+            // Lo mismo ocurre con el stock
+            else if (stock < 0) {
+                error.innerHTML = "Stock invalido.";
+                error.style.color = "red";
+            } else {
+                // Si la portada no está vacia
+                if (portada != null && portada != '') {
+                    // Se obtiene su extension.
+                    let lastIndexOfPunto = portada.lastIndexOf('.') + 1;
+                    let extension = portada.substr(lastIndexOfPunto, portada.length).toLowerCase();
+                    // Y se comprueba que pertenezca a las permitidas
+                    if (extension == 'jpg' || extension == 'jpeg' || extension == 'png') {
+                        // Si todo es correcto, se hace click
+                        $("#editarProducto").click();
+                    } else {
+                        console.log(extension);
+                        error.innerHTML = "Formato de portada invalido.";
+                        error.style.color = "red";
+                    }
+                } else {
+                    // Si no hay portada, simplemente se hace click al submit.
+                    $("#editarProducto").click();
+                }
+            }
+        }
+    }
     
 </script>

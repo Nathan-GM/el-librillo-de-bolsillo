@@ -74,8 +74,8 @@
                     <div class='userDataCard'>
                         <h2>Registrarse</h2>
                         <p>Correo: <input type='email' name='email' id='email'></p>
-                        <p>Contraseña: <input type='password' name='password' id='password'></p>
-                        <p>Confirmar contraseña: <input type='password' name='confirmPassword' id='confirmPassword'></p>
+                        <p>Contraseña*: <input type='password' name='password' id='password'></p>
+                        <p>Confirmar contraseña*: <input type='password' name='confirmPassword' id='confirmPassword'></p>
                     </div>
                     <hr>
                     <div class='personalDataCard'>
@@ -88,8 +88,20 @@
                 <input type="submit" value="Crear cuenta" name='register' id='register'>
                 <br>
             </form>
+        <p id='mostrarRequisitos'>*Mostrar requisitos de contraseña</p>
+        <div id='requisitos'>
+            <p>La contraseña ha de tener:
+                <ol>
+                    <li>Una mayuscula</li>
+                    <li>Una minuscula</li>
+                    <li>Un numero</li>
+                    <li>Un caracter especial</li>
+                    <li>Minimo 6 caracteres</li>
+                </ol>
+            </p>
+        </div>
         <p id='error'><?php echo $error; ?></p>
-        <button id='validar'>Crear cuenta</button></a>
+        <button id='validar'>Crear cuenta</button>
         <button id='goToLogin'><a href="login.php">¿Ya tienes cuenta? Inicia sesión</button></a>
         </div>
     </div>
@@ -99,12 +111,43 @@
     // Se muestra el footer.
     include_once('./templates/footer.php');
 ?>
-?>
 
 
 <script>
-    // Se oculta el submit de registro.
+    // Se oculta el submit de registro y los requisitos.
     document.getElementById("register").style.display = "none";
+    document.getElementById("requisitos").style.display = "none";
+    
+    // Se dan estilos al elemento de mostrar requisitos
+    document.getElementById("mostrarRequisitos").style.cursor = "pointer";
+    document.getElementById("mostrarRequisitos").style.fontWeight = "bold";
+    document.getElementById("mostrarRequisitos").style.textAlign = "center";
+    
+    // Booleano que comprueba si se están mostrando o no los requisitos.
+    let verRequisitos = false;
+    // Se le da una función click
+    document.getElementById("mostrarRequisitos").addEventListener("click", requisitos);
+    
+    /**
+     * Función que mostrará u ocultara los requisitos de contraseña.
+     */
+    function requisitos() {
+        // Si ver requisitos esta activo
+        if (verRequisitos) {
+            // Se ocultan y se actualiza el texto de mostrar requisitos.
+            document.getElementById("requisitos").style.display = "none";
+            document.getElementById("mostrarRequisitos").innerHTML = '*Mostrar requisitos de contraseña';
+            // Finalmente, requisitos pasa a falso
+            verRequisitos = false;
+        } else {
+            // Si no, se muestran los requisitos y se actualiza el texto
+            document.getElementById("requisitos").style.display = "inline";
+            document.getElementById("mostrarRequisitos").innerHTML = '*Ocultar requisitos de contraseña';
+            // Finalmente, ver requisitos pasa a cierto.
+            verRequisitos = true;
+        }
+    }
+    
 
     // Se obtiene el parrafo que mostrará el error.
     var error = document.getElementById("error");
@@ -150,15 +193,21 @@
             error.style.color = "red";
         } else {
             // Si el correo no incluye @ no se considerá valido.
-            if (!correo.includes('@')) {
+            if (!correoRegEx.test(correo)) {
                 error.innerHTML = "Correo invalido.";
                 error.style.color = "red";
                 // Si las contraseñas no coinciden no se permite continuar
             } else if (contrasenya != confirmarContrasenya) {
                 error.innerHTML = "Las contraseñas no coinciden.";
                 error.style.color = "red";
-                // Si el numero de telefono no se considera valido se avisa al usuario
-            } else if (!numeroDeTelefono.test(numeroTelefono)) {
+            } 
+            // Si las contraseñas no es valida no se permite continuar
+            else if (!passwordRegEx.test(contrasenya)) {
+                error.innerHTML = "La contraseña no es valida.";
+                error.style.color = "red";
+            }
+            // Si el numero de telefono no se considera valido se avisa al usuario
+            else if (!numeroDeTelefono.test(numeroTelefono)) {
                 error.innerHTML = "El número de teléfono no es valido.";
                 error.style.color = "red";
             } else {

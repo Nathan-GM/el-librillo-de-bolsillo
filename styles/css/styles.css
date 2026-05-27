@@ -1,5 +1,4 @@
 /* MOVIL */
-/* TODO: Revisar los estilos de PC y Tablet. */
 /* Se le da color a la barra de navegación y se le indica que se muestre en fila. */
 header {
     background-color: #95D5B2;
@@ -327,10 +326,11 @@ footer > .menuNav > li > ul {
     text-align: center;
 }
 
-button {
+button, #mostrarRequisitos {
     padding: 10px;
     border-radius: 15px;
     background-color: #B7E4C7;
+    margin-top: 5px;
 }
 
 select {

@@ -247,10 +247,11 @@
         padding: 15px;
     }
 
-    button {
+    button, #mostrarRequisitos {
         padding: 10px;
         border-radius: 15px;
         background-color: #B7E4C7;
+        margin-top: 5px
     }
 
     table {

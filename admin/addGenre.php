@@ -55,26 +55,68 @@
 
 <main>
     <section class="contenido">
-        <!-- Formulario para crear género -->
-        <form action="addGenre.php" method="post" class='registerCard'>
-            <h1 class='titulo'>Agregar un nuevo género para articulos</h1>
-            <label for="genreName">Nombre del género</label>
-            <input type="text" id="genreName" name="genreName">
-            <br>
-            <input type="submit" value="Crear género" name="create">
-            <br>
+        <div class='registerCard'>
+            <!-- Formulario para crear género -->
+            <form action="addGenre.php" method="post" class='registerCard' id='generoForm'>
+                <h1 class='titulo'>Agregar un nuevo género para articulos</h1>
+                <label for="genreName">Nombre del género</label>
+                <input type="text" id="genreName" name="genreName">
+                <br>
+                <input type="submit" value="Crear género" name="create" id='crearGenero'>
+                <br>
+            </form>
+            <p id='error'><?php echo $error; ?></p>
+            <button id='validar'>Crear género</button>
             <p>
-            ¿No sabes qué generos están actualmente disponible?<br>
-            <!-- Enlace al listado de géneros. -->
-            Pulsa <a href="listGenre.php">aquí</a> para ver el listado de géneros
+                ¿No sabes qué generos están actualmente disponible?<br>
+                <!-- Enlace al listado de géneros. -->
+                Pulsa <a href="listGenre.php">aquí</a> para ver el listado de géneros
             </p>
-        </form>
-        <?php
-            echo "<h1>$error</h1>";
-        ?>
+        </div>
     </section>
 </main>
 
 <?php
     include_once('./templates/footer.php');
 ?>
+
+<script>
+    // Se oculta el submit de crear genero.
+    document.getElementById('crearGenero').style.display = 'none';
+
+    // Se obtiene el parrafo que mostrará el error.
+    var error = document.getElementById("error");
+
+    // Se comprueba si desde PHP se ha recibido un error.
+    var existeError = <?php
+        if ($error != "") {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    ?>
+    // Si el valor es cierto, su color pasa a error.
+    if (existeError) {
+        error.style.color = "red";
+    }
+
+     // Al botón de validar se le da la función que comprobará que todos los campos sean validos.
+     document.getElementById("validar").addEventListener("click", validar);
+
+     function validar() {
+        // Se obtiene el formulario
+        let formulario = document.getElementById("generoForm");
+
+        // Y de ahi se obtienen el nombre del genero.
+        let nombreGenero = formulario.genreName.value;
+
+        // Si esta nulo o vacio, no se considera valido
+        if (nombreGenero == null || nombreGenero == '') {
+            error.innerHTML = "Formulario incompleto.";
+            error.style.color = "red";
+        } else {
+            // Si no, se pulsa el botón de submit.
+            $("#crearGenero").click();
+        }
+     }
+</script>

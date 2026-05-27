@@ -100,13 +100,12 @@
             error.innerHTML = "Formulario incompleto.";
             error.style.color = "red";
         } else {
-            // Si el correo no incluye @ no se considerá valido.
-            if (!correo.includes("@")) {
+            // Si el correo no es valido conforme lo indicado en el fichero expresiones se avisara..
+            if (!correoRegEx.test(correo)) {
                 error.innerHTML = "Correo invalido.";
                 error.style.color = "red";
-            } else {
-                // TODO: regex contraseña.
-
+            } 
+            else {
                 // Finalmente, con JQUery se hace click al submit del formulario.
                 // REF: https://stackoverflow.com/questions/8319688/click-a-specific-submit-button-with-jquery
                 $("#login").click();
