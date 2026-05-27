@@ -84,8 +84,8 @@
                     $error = "Alguno de los campos son erroneos.";
                 } else {
                     // Si no, se crea el articulo en la BD.
-                    $query = "INSERT INTO articulos (generoId, Nombre, Descripcion, Stock, Autor, Editorial, Precio)
-                    VALUES ('$genero', '$titulo', '$descripcion', '$stock', '$autor', '$editorial', '$precio');
+                    $query = "INSERT INTO articulos (generoId, Nombre, Descripcion, Stock, Autor, Editorial, Precio, deleted)
+                    VALUES ('$genero', '$titulo', '$descripcion', '$stock', '$autor', '$editorial', '$precio', 0);
                     ";
                     if (!$result = $databaseConnection->query($query)) {
                         // Si da error 1062 dará error por la clave primaria
@@ -123,73 +123,156 @@
 ?>
     <main>
         <section class='contenido'>
-            <form action="add.php" method="post" class="registerCard" id="productoForm" enctype="multipart/form-data">
-                <h1 class='titulo'>Agregar nuevos productos</h1>
-                <!-- Titulo del articulo -->
-                <label for="title">Titulo del producto</label>
-                <input type="text" name="title" id="title">
+            <div class="registerCard">
+                <form action="add.php" method="post" id="productoForm" class="registerCard" enctype="multipart/form-data">
+                    <h1 class='titulo'>Agregar nuevos productos</h1>
+                    <!-- Titulo del articulo -->
+                    <label for="title">Titulo del producto</label>
+                    <input type="text" name="title" id="title">
 
-                <br>
+                    <br>
 
-                <!-- Descripcion del articulo -->
-                <label for="description">Descripción del producto</label>
-                <input type="text" name="description" id="description">
+                    <!-- Descripcion del articulo -->
+                    <label for="description">Descripción del producto</label>
+                    <input type="text" name="description" id="description">
 
-                <br>
+                    <br>
 
-                <!-- Stock del articulo -->
-                <label for="stock">Stock del producto disponible</label>
-                <input type="number" name="stock" id="stock">
+                    <!-- Stock del articulo -->
+                    <label for="stock">Stock del producto disponible</label>
+                    <input type="number" name="stock" id="stock" min='0'>
 
-                <br>
+                    <br>
 
-                <!-- Autor del articulo -->
-                <label for="autor">Autor del producto</label>
-                <input type="text" name="autor" id="autor">
+                    <!-- Autor del articulo -->
+                    <label for="autor">Autor del producto</label>
+                    <input type="text" name="autor" id="autor">
 
-                <br>
+                    <br>
 
-                <!-- Editorial del articulo -->
-                <label for="editorial">Editorial a la que pertenece</label>
-                <input type="text" name="editorial" id="editorial">
+                    <!-- Editorial del articulo -->
+                    <label for="editorial">Editorial a la que pertenece</label>
+                    <input type="text" name="editorial" id="editorial">
 
-                <br>
+                    <br>
 
-                <!-- Precio del articulo -->
-                <label for="price">Precio del producto</label>
-                <input type="number" name="price" id="price" step="0.01">
+                    <!-- Precio del articulo -->
+                    <label for="price">Precio del producto</label>
+                    <input type="number" name="price" id="price" step="0.01">
 
-                <br>
+                    <br>
 
-                <!-- Género del articulo. -->
-                <label for="genre">Genero al que pertenece</label>
-                <select name="genre" id="genre">
-                    <?php
-                        for ($i=0; $i < count($genres) ; $i++) { 
-                            echo "<option value=" . $genres[$i]["id"] . ">";
-                            echo $genres[$i]["nombre"];
-                            echo "</option>";
-                        }
-                    ?>
-                </select>
+                    <!-- Género del articulo. -->
+                    <label for="genre">Genero al que pertenece</label>
+                    <select name="genre" id="genre">
+                        <?php
+                            for ($i=0; $i < count($genres) ; $i++) { 
+                                echo "<option value=" . $genres[$i]["id"] . ">";
+                                echo $genres[$i]["nombre"];
+                                echo "</option>";
+                            }
+                        ?>
+                    </select>
 
-                <br>
-                
-                <!-- Portada del articulo -->
-                <label for="portada">Portada del producto</label>
-                <input type="file" name="portada" id="portada" accept="image/png, image/jpeg">
+                    <br>
+                    
+                    <!-- Portada del articulo -->
+                    <label for="portada">Portada del producto</label>
+                    <input type="file" name="portada" id="portada" accept=".jpg, .png, .jpeg">
 
-                <br>
+                    <br>
 
-                <input type="submit" name="enviar" id="crear">
+                    <input type="submit" value= 'Crear producto' name="enviar" id="crearProducto">
+                </form>
 
-
-            </form>
-            <?php
-                echo "<h1>$error</h1>";
-            ?>
+                <p id='error'><?php echo $error; ?></p>
+                <button id='validar'>Crear producto</button>
+            </div>
         </section>
     </main>
 <?php
     include_once('./templates/footer.php');
 ?>
+
+<script>
+    // Se oculta el submit de crear producto.
+    document.getElementById('crearProducto').style.display = 'none';
+
+    // Se obtiene el parrafo que mostrará el error.
+    var error = document.getElementById("error");
+
+    // Se comprueba si desde PHP se ha recibido un error.
+    var existeError = <?php
+        if ($error != "") {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    ?>
+    // Si el valor es cierto, su color pasa a error.
+    if (existeError) {
+        error.style.color = "red";
+    }
+
+    // Al botón de validar se le da la función que comprobará que todos los campos sean validos.
+    document.getElementById("validar").addEventListener("click", validar);
+
+    function validar() {
+        // Se obtiene el formulario
+        let formulario = document.getElementById("productoForm");
+
+        // Y de ahi se obtienen todos sus campos.
+        let titulo = formulario.title.value;
+        let descripcion = formulario.description.value;
+        let stock = formulario.stock.value;
+        let autor = formulario.autor.value;
+        let editorial = formulario.editorial.value;
+        let precio = formulario.price.value;
+        let genero = formulario.genre.value;
+        let portada = formulario.portada.value;
+
+        // Se comprueba que ninguno este vacio
+        if (
+            (titulo == null || titulo == '') ||
+            (descripcion == null || descripcion == '') ||
+            (stock == null || stock == '') ||
+            (autor == null || autor == '') ||
+            (editorial == null || editorial == '') ||
+            (precio == null || precio == '') ||
+            (genero == null) 
+        ) {
+            error.innerHTML = "Formulario incompleto.";
+            error.style.color = "red";
+        } else {
+            // Si el precio es menor a 0 no es valido
+            if (precio < 0.00) {
+                error.innerHTML = "Precio invalido.";
+                error.style.color = "red";
+            }
+            // Lo mismo ocurre con el stock
+            else if (stock < 0) {
+                error.innerHTML = "Stock invalido.";
+                error.style.color = "red";
+            } else {
+                // Si la portada no está vacia
+                if (portada != null && portada != '') {
+                    // Se obtiene su extension.
+                    let lastIndexOfPunto = portada.lastIndexOf('.') + 1;
+                    let extension = portada.substr(lastIndexOfPunto, portada.length).toLowerCase();
+                    // Y se comprueba que pertenezca a las permitidas
+                    if (extension == 'jpg' || extension == 'jpeg' || extension == 'png') {
+                        // Si todo es correcto, se hace click
+                        $("#crearProducto").click();
+                    } else {
+                        console.log(extension);
+                        error.innerHTML = "Formato de portada invalido.";
+                        error.style.color = "red";
+                    }
+                } else {
+                    // Si no hay portada, simplemente se hace click al submit.
+                    $("#crearProducto").click();
+                }
+            }
+        }
+    }
+</script>
