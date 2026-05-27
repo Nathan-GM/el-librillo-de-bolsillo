@@ -9,6 +9,12 @@
         $page = $_GET['pagina'];
     };
 
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
+        $idResenya = $_POST['resenyaId'];
+        $q = "DELETE FROM resenya WHERE id = '$idResenya'";
+        $databaseConnection->query($q);
+    }
+
     /**
      * Función que crea la tabla con todas las reseñas.
      * 
@@ -16,13 +22,14 @@
      * @param $RPP Cantidad de reseñas que hay por página (Reseñas Por Página => RPP)
      * @param $page Página actual.
      * @param $total: Total de reseñas disponibles.
+     * @param $user: usuario. Si no se le pasa es nulo.
      */
-    function crearTablaResenya($con, $RPP, $page, $total) {
+    function crearTablaResenya($con, $RPP, $page, $total, $user = null) {
         // Se obtiene la posición actual
         $posicion = ($page-1) * $RPP;
 
         // Se crea la SQL con lo necesario para mostrar correctamente la reseña.
-        $query = "SELECT a.Nombre, u.Nombre as Usuario, r.puntuacion, r.mensaje, r.fecha 
+        $query = "SELECT a.Nombre, u.Nombre as Usuario, r.puntuacion, r.mensaje, r.fecha, r.id
         from resenya r
         inner JOIN articulos a on r.idArticulo = a.ID
         inner JOIN usuarios u on u.Email = r.email
@@ -54,8 +61,15 @@
                 if ($displayHeaders == true) {
                     echo "<tr>";
                     foreach($fila as $indice=>$valor) {
+                        if ($indice != 'id') {
+                            echo "<th style=$estilo>";
+                            echo "$indice";
+                            echo "</th>";
+                        }
+                    }
+                    if (isset($user) && $user['Rol'] == 'admin') {
                         echo "<th style=$estilo>";
-                        echo "$indice";
+                        echo "Administrar";
                         echo "</th>";
                     }
                     echo "</tr>";
@@ -68,6 +82,14 @@
                     echo "<td style=$estilo>" . $fila['puntuacion'] . "</td>";
                     echo "<td style=$estilo>" . $fila['mensaje'] . "</td>";
                     echo "<td style=$estilo>" . $fila['fecha'] . "</td>";
+                    if (isset($user) && $user['Rol'] == 'admin') {
+                        echo "<td style=$estilo>";
+                        echo "<form action='resenyas.php' method='post'>";
+                            echo "<input type='text' value='" . $fila['id'] ."' hidden name='resenyaId'>";
+                            echo "<input type='submit' value='Eliminar' name='remove'></input>";
+                        echo "</form>";
+                        echo "</td>";
+                    }
                 echo "</tr>";
             }
             // Se muestra como pie de tabla el total de páginas que tiene la tabla.
@@ -110,7 +132,11 @@
             <?php
                 // Si existen reseñas se crea la tabla.
                 if ($totalResenya != 0) {
-                    crearTablaResenya($databaseConnection, $resenyasPorPagina, $page, $totalResenya);
+                    if (isset($user)) {
+                        crearTablaResenya($databaseConnection, $resenyasPorPagina, $page, $totalResenya, $user);
+                    } else {
+                        crearTablaResenya($databaseConnection, $resenyasPorPagina, $page, $totalResenya);
+                    }
                 } else {
                     // en caso de no encontrar ninguna se muestra.
                     echo "<h2>No se tienen reseñas actualmente.</h2>";
