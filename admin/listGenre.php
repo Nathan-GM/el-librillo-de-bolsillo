@@ -15,8 +15,8 @@
     $itemsPerPage = 10;
     $page = 1;
     // Si esta indicado en el GET, se obtiene la página 
-    if (isset($_GET['pagina'])) {
-        $page = $_GET['pagina'];
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
     }
 
     /**
@@ -65,7 +65,7 @@
             $totalPages = ceil($total / $itemsPerPage);
             echo "<caption style='caption-side:bottom;'>";
             for ($contador = 1; $contador <= $totalPages; $contador++) { 
-                echo "<a style='text-align:center;' href='list.php?page=$contador'>$contador</a>";
+                echo "<a style='text-align:center;' href='listGenre.php?page=$contador'>$contador</a> ";
             }
             echo "</caption>";
 
