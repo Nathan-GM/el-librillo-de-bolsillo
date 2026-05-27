@@ -172,6 +172,11 @@
         padding: 20px;
     }
 
+    .generalCard {
+        background-color: rgba(211, 211, 211, 0.9);
+        text-align: center;
+    }
+
     /* FIN DE LOGINCARD */
 
     /* REGISTERCARD */
@@ -283,5 +288,25 @@
 
     .f-carousel__slide > button:nth-child(5) {
         width: 30%;
+    }
+
+    .products {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .productHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin: 10px;
+        width: 100%;
+    }
+
+    .productHeader > div:last-child {
+        text-align: center;
     }
 }

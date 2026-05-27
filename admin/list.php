@@ -147,21 +147,23 @@
         </table>
 
         <!-- Apartado para filtrar por los géneros obtenidos. -->
-        <h2>Filtrar por género</h2>
-        <form action="list.php" method="POST">
-        <select name="opcion">
-            <option value="0">Todos</option>
-            <?php
-                for ($i=0; $i < count($genres) ; $i++) { 
-                    echo "<option value=" . $genres[$i]["id"] . ">";
-                    echo $genres[$i]["nombre"];
-                    echo "</option>";
-                }
-            ?>
-        </select>
-        <br>
-        <input type="submit" name="filtrar" value="Filtrar">
-        </form>
+        <div class='generalCard' style='margin-top:25px'>
+            <h2>Filtrar por género</h2>
+            <form action="list.php" method="POST">
+            <select name="opcion">
+                <option value="0">Todos</option>
+                <?php
+                    for ($i=0; $i < count($genres) ; $i++) { 
+                        echo "<option value=" . $genres[$i]["id"] . ">";
+                        echo $genres[$i]["nombre"];
+                        echo "</option>";
+                    }
+                ?>
+            </select>
+            <br>
+            <input type="submit" name="filtrar" value="Filtrar">
+            </form>
+        </div>
     </section>
 </main>
 <?php

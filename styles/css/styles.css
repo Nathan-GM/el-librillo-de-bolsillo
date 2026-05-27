@@ -252,6 +252,11 @@ nav > button {
         padding: 20px;
     }
 
+    .generalCard {
+        background-color: rgba(211, 211, 211, 0.9);
+        text-align: center;
+    }
+
     .loginCard > h2, .registerCard > h2, .generalCard > h2 {
         text-align: center;
     }
@@ -366,4 +371,18 @@ height: 60%;
 
 .f-carousel__slide > button:nth-child(5) {
     width: 30%;
+}
+
+.products {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.productHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
 }

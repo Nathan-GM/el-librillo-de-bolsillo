@@ -157,34 +157,36 @@
                 echo "<h1>$error</h1>";
             } else {?>
         <!-- Portada - Izquierda -->
-        <div>
-            <?php
-                if ($product['portada'] == '') {
-                    echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
-                } else {
-                    echo "<img src='public-files/books-imgs/". $product['portada'] ."' alt='Portada del libro'>";
-                }
-            ?>
-        </div>
+        <div class='productHeader'>
+            <div>
+                <?php
+                    if ($product['portada'] == '') {
+                        echo "<img src='public-files/imgs/libroPlaceholder.png' alt='Portada del libro'>";
+                    } else {
+                        echo "<img src='public-files/books-imgs/". $product['portada'] ."' alt='Portada del libro'>";
+                    }
+                ?>
+            </div>
 
-        <!-- Titulo + Precio -->
-        <div>
-            <?php
-            echo "<h1>" . $product['Nombre'] . " - " . $product['Precio'] . "€</h1>";
-            echo "<h2>" . $product['Genero'] . "</h2>";
-            if ($product['Stock'] <= 0) {
-                echo "<button disabled>Actualmente agotado</button>";
-            } else {
-                if(isset($user)) {
-                    echo "<form action='product.php' method='post'>";
-                    echo "<input type='text' value='" . $product['id'] ."' hidden name='producto'>";
-                    echo "<input type='submit' value='Agregar al carrito' name='add'></input>";
-                    echo "</form>";
+            <!-- Titulo + Precio -->
+            <div>
+                <?php
+                echo "<h1>" . $product['Nombre'] . " - " . $product['Precio'] . "€</h1>";
+                echo "<h2>" . $product['Genero'] . "</h2>";
+                if ($product['Stock'] <= 0) {
+                    echo "<button disabled>Actualmente agotado</button>";
                 } else {
-                    echo "<button id='login'>Inicia sesión para agregarlo al carrito</button>";
+                    if(isset($user)) {
+                        echo "<form action='product.php' method='post'>";
+                        echo "<input type='text' value='" . $product['id'] ."' hidden name='producto'>";
+                        echo "<input type='submit' value='Agregar al carrito' name='add'></input>";
+                        echo "</form>";
+                    } else {
+                        echo "<button id='login'>Inicia sesión para agregarlo al carrito</button>";
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
         </div>
         <!-- Descripción y reseñas -->
         <div>

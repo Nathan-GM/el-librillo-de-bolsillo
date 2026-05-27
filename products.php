@@ -77,7 +77,8 @@
 <main>
     <section class='contenido'>
 
-    <h2>Filtrar por género</h2>
+    <div class='generalCard'>
+        <h2>Filtrar por género</h2>
         <form action="products.php" method="post">
             <select name="opcion">
                 <option value="0">Todos</option>
@@ -104,6 +105,7 @@
             <br>
             <input type="submit" name="filtrar" value="Filtrar">
         </form>
+    </div>
     
 
         <?php
@@ -119,7 +121,7 @@
                 $total = 0;
                 while ($fila = $result->fetch_assoc()) {
                     if ($i == 0) {
-                        echo "<div style='display:flex; flex-direction:row;'>";
+                        echo "<div class='products'>";
                     }
                     echo "<div class='libroN'>";
                         echo "<h3>" . $fila['nombre'] . "</h3>";
