@@ -59,7 +59,7 @@
     <section class='contenido'>
         <h1>Editar roles de usuarios</h1>
         <h2 id='mostrarAvisos'><?php echo $error?></h2>
-        <div class='cards'>
+        <div class='userRoleCards'>
             <form action="userRole.php" method='post' class='registerCard' id='selectedUserToEdit'>
                 <h1>Selecciona usuario que hacer administrador</h1>
                 

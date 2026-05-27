@@ -316,6 +316,12 @@ footer > .menuNav > li > ul {
     gap: 15px;
 }
 
+.userRoleCards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .genreCard {
     display: flex;
     flex-direction: column;

@@ -98,7 +98,7 @@
         display: inline;
     }
 
-    .cards {
+    .cards, .userRoleCards {
         display: flex;
         flex-direction: row;
         justify-items: center;
