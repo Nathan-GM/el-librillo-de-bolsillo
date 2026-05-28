@@ -263,8 +263,10 @@
 ?>
 
 <script>
+    // Se obtiene el elemento Login
     document.getElementById("login").addEventListener('click', login, false);
 
+    // Se indica que te ha de mandar a iniciar sesión.
     function login() {
         window.location.href = 'login.php';
     }
