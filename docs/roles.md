@@ -38,11 +38,11 @@ Estos son los usuarios encargados de administrar la tienda (gerentes, encargados
 - Capacidad de convertir usuarios existentes en administradores y viceversa.
 
 
-## Tabla comparativa entre usuarios
+<!-- ## Tabla comparativa entre usuarios -->
 
 <!-- Referencia tabla: https://www.codecademy.com/resources/docs/markdown/tables -->
 
-A continuación se mostrará una tabla comparativa entre lo que puede y no puede hacer cada usuario
+<!-- A continuación se mostrará una tabla comparativa entre lo que puede y no puede hacer cada usuario
 Permisos                                            | No registrado       | Usuario         | Administrador
 ---                                                 |       :---:         |    :---:        |     :---:
 Ver productos                                       |       Si            |    Si           |  Si
@@ -57,4 +57,28 @@ Borrar productos existentes                         |       No            |    N
 Crear nuevos géneros de productos                   |       No            |    No           |  Si
 Eliminar reseñas                                    |       No            |    No           |  Si
 Convertir usuarios en admin                         |       No            |    No           |  Si
-Convertir administradores en usuarios               |       No            |    No           |  Si
+Convertir administradores en usuarios               |       No            |    No           |  Si -->
+
+## Permisos de No Registrados:
+
+- Ver productos
+- Ver reseñas
+
+## Permisos de Usuario:
+
+- Permisos de no registrados
+- Comprar articulos
+- Hacer reseña
+- Ver antiguos productos
+
+## Permisos de administradores
+
+- Permisos de usuario
+- Ver todos los productos, incluso eliminados
+- Crear nuevos productos
+- Editar productos existentes
+- Borrar productos existentes 
+- Crear nuevos géneros de productos
+- Eliminar reseñas
+- Convertir usuarios en admin
+- Convertir administradores en usuarios
