@@ -51,15 +51,15 @@ ___
 
 ### Página principal tablet
 
-![Página principal tablet](imgs/usotablet.jpg)
+![Página principal tablet](imgs/usoTablet.jpg)
 
 ### Vista de productos tablet
 
-![Página de productos desde tablet](imgs/productostablet.jpg)
+![Página de productos desde tablet](imgs/productosTablet.jpg)
 
 ### Vista de producto tablet
 
-![Página de producto desde tablet](imgs/productotablet.jpg)
+![Página de producto desde tablet](imgs/productoTablet.jpg)
 
 ### Géneros tablet
 
@@ -67,7 +67,7 @@ ___
 
 ### Apartado de administrador tablet
 
-![Página de administación desde tablet](imgs/admintablet.jpg)
+![Página de administación desde tablet](imgs/adminTablet.jpg)
 
 ___
 
