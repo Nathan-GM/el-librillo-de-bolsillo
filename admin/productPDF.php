@@ -77,7 +77,9 @@
                         $this->Cell($w, 7, $value . chr(128), 1, 0);
                     } else {
                         // Si no, se muestra normal.
-                        $this->Cell($w, 7, $value, 1, 0);
+                        // Para los acentos se usa UTF8_decode
+                        // Ref: https://es.stackoverflow.com/questions/79527/problema-con-los-acentos-en-fpdf
+                        $this->Cell($w, 7, utf8_decode($value), 1, 0);
                     }
                 }
                 $this->Ln();
@@ -89,7 +91,7 @@
     session_start();
     // Si no hay usuario se manda al index.
     if (!isset($_SESSION['user'])) {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
 
