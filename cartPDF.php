@@ -28,12 +28,16 @@
             $check = $db->query($query);
             $checkValue = $check->fetch_assoc();
 
+            // Se comprueba que el carrito pertenezca al usuario actual
             if ($checkValue['user_email'] != $_SESSION['user']) {
+                // Si no le pertenece, se le manda a indice.
                 header("Location: index.php");
                 exit;
             }
 
             $this->SetFont('Arial', 'B', 16); // Se indica la fuenta Arial, Negrita y Tamaño 15
+
+            // Se obtienen los elementos del carrito
             $query = "SELECT a.Nombre, a.Precio, cantidad 
             FROM elementosCarrito ec
             INNER JOIN articulos a ON a.id = articuloId
@@ -44,10 +48,13 @@
             $totalPrice = 0;
 
             while($fila = $result->fetch_assoc()) {
+                // Se obtiene el precio de cada producto y el total con su cantidad
                 $itemPrice = floatVal($fila['Precio']);
                 $quantity = intval($fila['cantidad']);
                 $productPrice = $itemPrice * $quantity;
+                // Se agrega el precio al total del precio
                 $totalPrice = $totalPrice + $productPrice;
+                // Se crean las cabeceras
                 if (!$headers) {
                     foreach ($fila as $key => $value) {
                         $w = 100;
@@ -60,6 +67,7 @@
                     $this->Ln();
                     $headers = true;
                 }
+                // Se obtiene el valor de cada producto
                 foreach($fila as $key=>$value) {
                     
                     $w = 100;
@@ -69,7 +77,7 @@
                     if ($key == "Precio") {
                         $this->Cell($w, 7, $value . chr(128), 1);
                     } else {
-                        $this->Cell($w, 7, $value, 1);
+                        $this->Cell($w, 7, utf8_decode($value), 1);
                     }
                 }
                 $this->Cell($w, 7, $productPrice . chr(128), 1);
@@ -80,7 +88,9 @@
         }
     }
 
+    // Se inicia la sesion
     session_start();
+    // Se comprueba que exista user y carrito
     if (!isset($_SESSION['user']) || !isset($_GET['carrito'])) {
         header("Location: index.php");
         exit;
@@ -99,7 +109,7 @@
     $pdf->cell(0,10, "Carrito de " . $_SESSION['user'] . " - $cartId", 0, 0, 'C');
     $pdf->ln();
     $pdf->ln();
-
+    // Se genera la tabla.
     $pdf->BasicTable($db, $cartId);
     $pdf->output('I', "Carrito.pdf");
 ?>
