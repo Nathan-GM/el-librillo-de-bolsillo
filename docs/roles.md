@@ -2,7 +2,6 @@
 - [No registrado](#no-registrado)
 - [Usuario](#usuario-registrado)
 - [Administrador o Admin](#administrador-o-admin)
-- [Tabla Comparativa entre roles](#tabla-comparativa-entre-usuarios)
 
 Para su correcto funcionamiento, los usuarios se separan en distintos roles que les permiten hacer distintas acciones.
 
