@@ -69,11 +69,13 @@
     // Elementos carrito
 
     $sql ="CREATE TABLE elementoscarrito (
-    carritoId int(11) NOT NULL PRIMARY KEY,
-    articuloId int(11) NOT NULL PRIMARY KEY,
+    carritoId int(11) NOT NULL,
+    articuloId int(11) NOT NULL,
     cantidad int(11) NOT NULL,
 
-    FOREIGN KEY (carritoId) REFERENCES carrito(id)
+    PRIMARY KEY (carritoId, articuloId),
+
+    FOREIGN KEY (carritoId) REFERENCES carrito(id),
     FOREIGN KEY (articuloId) REFERENCES articulos(ID)
 
     ) ENGINE=InnoDB;";
@@ -89,7 +91,7 @@
     mensaje varchar(255) DEFAULT NULL,
     fecha date DEFAULT NULL,
 
-    FOREIGN KEY (idArticulo) REFERENCES articulos(ID)
+    FOREIGN KEY (idArticulo) REFERENCES articulos(ID),
     FOREIGN KEY (email) REFERENCES usuarios(Email)
 
     ) ENGINE=InnoDB;";
