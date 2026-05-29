@@ -1,4 +1,7 @@
 <?php
+    // Se inicia la sesion
+    session_start();
+    
     require('./libs/FPDF/fpdf.php');
 
     class PDF extends FPDF {
@@ -88,8 +91,6 @@
         }
     }
 
-    // Se inicia la sesion
-    session_start();
     // Se comprueba que exista user y carrito
     if (!isset($_SESSION['user']) || !isset($_GET['carrito'])) {
         header("Location: index.php");

@@ -1,3 +1,7 @@
+<?php
+    // Se inicia la sesión
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -29,8 +33,6 @@
             // Se crea la conexión a la base de datos
             $databaseConnection = new mysqli($nombreServidor, $usernameDB, $passwordDB, $database, $port); //DOCKER
             //$databaseConnection = new mysqli("localhost", "root", "", "proyecto"); // LOCAL
-            // Se inicia la sesión
-            session_start();
             // si hay un usuario asignado 
             if (isset($_SESSION['user'])) {
                 // se obtienen sus datos de la base de datos.

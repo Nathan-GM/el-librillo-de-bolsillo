@@ -1,4 +1,6 @@
 <?php
+    // Se inicia la sesión
+    session_start();
     require('../libs/FPDF/fpdf.php');
 
     class PDF extends FPDF {
@@ -87,8 +89,6 @@
         }
     }
 
-    // Se inicia la sesión
-    session_start();
     // Si no hay usuario se manda al index.
     if (!isset($_SESSION['user'])) {
         header("Location: ../index.php");
