@@ -29,7 +29,7 @@
 
             // Se crea la conexión a la base de datos
             //$databaseConnection = new mysqli("localhost", "root", "", "proyecto"); // LOCAL
-            $databaseConnection = new mysqli($nombreServidor, $username, $passwordDB, $database, $port); //DOCKER
+            $databaseConnection = new mysqli($nombreServidor, $usernameDB, $passwordDB, $database, $port); //DOCKER
             // Se inicia la sesión
             session_start();
             // si hay un usuario asignado 

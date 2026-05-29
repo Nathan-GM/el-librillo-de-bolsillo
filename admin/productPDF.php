@@ -110,7 +110,7 @@
     $port = 3306;
     
     //$db = new mysqli("localhost", "root", "", "proyecto"); // LOCAL
-    $db = new mysqli($nombreServidor, $username, $passwordDB, $database, $port); //DOCKER
+    $db = new mysqli($nombreServidor, $usernameDB, $passwordDB, $database, $port); //DOCKER
 
     $pdf->SetFont('Arial', 'B', 20); // Se indica la fuenta Arial, Negrita y Tamaño 15
     // Se crea la cabecera
