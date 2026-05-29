@@ -49,23 +49,30 @@ sudo systemctl restart nginx
 6. Tras esto, el sitio web debería estar disponible si todo ha ido correctamente.
 
 ## Configuración de la Base de datos.
-En el repositorio se encuentra un fichero **proyecto.sql** que contiene lo básico para crear la base de datos funcional, incluyendo:
+En el repositorio se encuentra un fichero **proyecto.sql** dentro de info, que contiene lo básico para crear la base de datos funcional, incluyendo:
 
 - 2 usuarios, **administrador** y **usuario**
 - Sus respectivos carritos.
 
-En el código, se habría que modificar la conexión con la base de datos con nuestros datos. Ahora mismo se encuentra con los siguientes:
+En el código, se habría que modificar la conexión con la base de datos con nuestros datos. Ahora mismo se encuentra con las siguientes configuraciones:
 
 `Conexión, Usuario, Contraseña, Nombre de Base de datos`
 
 `"localhost", "root", "", "proyecto`
 
-Para configurarla, hay que modificar donde se llama a la base de datos con los datos que sean necesarios. Para facilitar la modificación de esto, se deja indicado donde se encuentran la declaraciones de la base de datos:
+Funcionando con Docker:
+`"db", "root", "root", "proyecto", 3306`
 
-1. **./templates/header.php**: En la declaración de la variable **$databaseConnection** en la linea 23
+![Fichero de Docker Compose](imgs/docker-compose.jpg)
 
-2. **./admin/templates/header.php**: En la declaración de la variable **$databaseConnection** en la linea 24
+Actualmente en el código esta activa la de uso con docker, mientras que la de localhost está comentada.
 
-3. **./cartPDF.php**: En la declaración de la variable **$databaseConnection** en la linea 106.
+Para configurarla, hay que modificar donde se llama a la base de datos con los datos que sean necesarios. Para facilitar la modificación de esto, se deja indicado donde se encuentran la declaraciones de la base de datos. Tener en cuenta que actualmente las de localhost están comentadas:
 
-4. **./admin/productPDF.php**: En la declaración de la variable **$databaseConnection** en la linea 106.
+1. **./templates/header.php**: En la declaración de la variable **$databaseConnection** en la linea 35 (localhost) y 36 (Docker)
+
+2. **./admin/templates/header.php**: En la declaración de la variable **$databaseConnection** en la linea 35 (localhost) y 34 (Docker)
+
+3. **./cartPDF.php**: En la declaración de la variable **$databaseConnection** en la linea 114 (localhost) y 115 (Docker).
+
+4. **./admin/productPDF.php**: En la declaración de la variable **$databaseConnection** en la linea 113 (localhost) y 114 (Docker).
