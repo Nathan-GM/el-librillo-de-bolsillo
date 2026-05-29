@@ -45,7 +45,7 @@
         $posicion = ($page-1) * $itemsPerPage;
         // Se crea la SQL que obtiene los datos necesarios del articulo y el nombre del género.
         $query = "SELECT a.Nombre, a.Descripcion, a.Autor, a.Editorial, a.Stock, a.Precio, a.deleted as Borrado, g.Nombre as Genero 
-        FROM Articulos a
+        FROM articulos a
         INNER JOIN generos g on g.id = a.GeneroID
         ";
 
@@ -109,7 +109,7 @@
         } catch(mysqli_sql_exception $e) {
             // Se captura cualquier tipo de error y se muestra por pantalla.
             echo 'Error: la ejecucion de tu petición a fallado. <br>';
-            echo 'Que se estaba haciendo: ' . $consultaInicial . "<br>";
+            echo 'Que se estaba haciendo: ' . $inicialQuery . "<br>";
             echo 'Número de error: ' . $e->getCode() . "<br>";
             echo 'Error que ha ocurrido: ' . $e->getMessage();
         }
@@ -119,14 +119,14 @@
     $totalProductos = 0;
     try {
         // Se obtiene el total de productos que hay en la BD
-        $inicialQuery = "SELECT * FROM ARTICULOS";
+        $inicialQuery = "SELECT * FROM articulos";
         $result = $databaseConnection->query($inicialQuery);
         $totalProductos = $result->num_rows;
         $result->free();
     } catch(mysqli_sql_exception $e) {
         // Si ocurre error al ejecutarlo se captura
         echo 'Error: la ejecucion de tu petición a fallado. <br>';
-        echo 'Que se estaba haciendo: ' . $consultaInicial . "<br>";
+        echo 'Que se estaba haciendo: ' . $inicialQuery . "<br>";
         echo 'Número de error: ' . $e->getCode() . "<br>";
         echo 'Error que ha ocurrido: ' . $e->getMessage();
     }

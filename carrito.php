@@ -62,7 +62,7 @@
 
     if (isset($cart)) {
         $itemCarts = "SELECT carritoId, cantidad, a.Nombre, a.Precio, a.id 
-        FROM elementosCarrito
+        FROM elementoscarrito
         INNER JOIN articulos a ON a.id = articuloId
         WHERE carritoId like '" . $cart['id'] ."'";
         $cartResult = $databaseConnection->query($itemCarts);

@@ -81,7 +81,7 @@
     $totalGenres = 0;
     try {
         // Se obtiene el total de productos que hay en la BD
-        $inicialQuery = "SELECT * FROM Generos";
+        $inicialQuery = "SELECT * FROM generos";
         $result = $databaseConnection->query($inicialQuery);
         $totalGenres = $result->num_rows;
         $result->free();

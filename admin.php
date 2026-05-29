@@ -74,7 +74,7 @@
         window.location.href = 'admin/add.php';
     }
     function goToAddGenre() {
-        window.location.href = 'admin/addgenre.php';
+        window.location.href = 'admin/addGenre.php';
     }
     function goToEditProduct() {
         window.location.href = 'admin/editProduct.php';

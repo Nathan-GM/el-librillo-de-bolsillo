@@ -31,7 +31,7 @@
             $this->SetFont('Arial', 'B', 16); // Se indica la fuenta Arial, Negrita y Tamaño 15
             // Se hace la consulta con todo lo necesario
             $query = "SELECT a.Nombre, a.Autor, a.Editorial, a.Stock, a.Precio, g.Nombre as Genero
-            FROM Articulos a
+            FROM articulos a
             INNER JOIN generos g on g.id = a.GeneroID
             where a.deleted = 0";
         

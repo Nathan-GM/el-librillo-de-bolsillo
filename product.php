@@ -101,7 +101,7 @@
             $producto = $_POST['producto'];
         }
         $query = "SELECT a.Nombre, a.Descripcion, a.Autor, a.Editorial, a.Stock, a.Precio, a.portada, a.id, g.Nombre as Genero 
-        FROM Articulos a
+        FROM articulos a
         INNER JOIN generos g on g.id = a.GeneroID
         where a.id = '" . $producto . "' and deleted = 0";
         $result = $databaseConnection->query($query);

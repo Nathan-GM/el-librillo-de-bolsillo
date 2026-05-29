@@ -7,7 +7,7 @@
 
     function actualizarStock($id, $databaseConnection) {
         $query ="SELECT carritoId, cantidad, a.Nombre, a.Precio, articuloId 
-        FROM elementosCarrito
+        FROM elementoscarrito
         INNER JOIN articulos a ON a.id = articuloId
         WHERE carritoId like '" . $id ."'";
 
@@ -42,9 +42,9 @@
 
     // Si esta asignado la variable userCart, es decir, se recogio un carrito
     if (isset($userCart)) {
-        // Se seleccionan los articulos que pertenezcan a dicha ID de carrito en la tabla elementosCarrito.
+        // Se seleccionan los articulos que pertenezcan a dicha ID de carrito en la tabla elementoscarrito.
         $itemCarts = "SELECT carritoId, cantidad, a.Nombre, a.Precio 
-        FROM elementosCarrito
+        FROM elementoscarrito
         INNER JOIN articulos a ON a.id = articuloId
         WHERE carritoId like '" . $userCart['id'] ."'";
 

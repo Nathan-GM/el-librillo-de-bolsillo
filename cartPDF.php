@@ -1,7 +1,7 @@
 <?php
     // Se inicia la sesion
     session_start();
-    
+
     require('./libs/FPDF/fpdf.php');
 
     class PDF extends FPDF {
@@ -42,7 +42,7 @@
 
             // Se obtienen los elementos del carrito
             $query = "SELECT a.Nombre, a.Precio, cantidad 
-            FROM elementosCarrito ec
+            FROM elementoscarrito ec
             INNER JOIN articulos a ON a.id = articuloId
             WHERE carritoId LIKE '" . $cartId . "'";
         
