@@ -103,7 +103,15 @@
     $pdf->AddPage(); // Se crea la página
     $pdf->SetFont('Times', '', 13); // Fuente Times, sin ninguna modificación y tamaño 13.
 
-    $db = new mysqli("localhost", "root", "", "proyecto");
+    // Datos BD docker
+    $nombreServidor = "db";
+    $usernameDB = "root";
+    $passwordDB = "root";
+    $database = "proyecto";
+    $port = 3306;
+    
+    //$db = new mysqli("localhost", "root", "", "proyecto"); // LOCAL
+    $db = new mysqli($nombreServidor, $username, $passwordDB, $database, $port); //DOCKER
 
     $pdf->SetFont('Arial', 'B', 20); // Se indica la fuenta Arial, Negrita y Tamaño 15
     $pdf->cell(0,10, "Carrito de " . $_SESSION['user'] . " - $cartId", 0, 0, 'C');
