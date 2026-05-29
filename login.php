@@ -1,8 +1,5 @@
 <?php
     include_once('./templates/header.php');
-    if (isset($user)) {
-        header("Location: zonaUsuario.php");
-    }
     $error = '';
 
         // Se comprueba si se ha hecho la petición post.
@@ -66,6 +63,18 @@
     // Se oculta el botón de submit y se usa el botón para hacer validadores.
     document.getElementById("login").style.display = "none";
     var error = document.getElementById("error");
+
+    var existeUsuario = <?php
+        if(isset($user)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    ?>
+
+    if (existeUsuario) {
+        window.location.href = 'zonaUsuario.php';
+    }
 
     // Se comprueba si desde PHP se ha recibido un error.
     var existeError = <?php
