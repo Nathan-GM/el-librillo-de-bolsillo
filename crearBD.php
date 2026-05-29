@@ -47,7 +47,7 @@
     Editorial varchar(255) DEFAULT NULL,
     Portada varchar(255) DEFAULT NULL,
     Precio float NOT NULL,
-    deleted tinyint(1) DEFAULT NULL
+    deleted tinyint(1) DEFAULT NULL,
 
     FOREIGN KEY (GeneroID) REFERENCES generos(ID)
     ) ENGINE=InnoDB;";
@@ -59,7 +59,7 @@
     $sql ="CREATE TABLE carrito (
     id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_email varchar(255) NOT NULL,
-    estado varchar(255) DEFAULT NULL
+    estado varchar(255) DEFAULT NULL,
 
     FOREIGN KEY (user_email) REFERENCES usuarios(Email)
     ) ENGINE=InnoDB;";
@@ -71,7 +71,7 @@
     $sql ="CREATE TABLE elementoscarrito (
     carritoId int(11) NOT NULL PRIMARY KEY,
     articuloId int(11) NOT NULL PRIMARY KEY,
-    cantidad int(11) NOT NULL
+    cantidad int(11) NOT NULL,
 
     FOREIGN KEY (carritoId) REFERENCES carrito(id)
     FOREIGN KEY (articuloId) REFERENCES articulos(ID)
@@ -87,7 +87,7 @@
     email varchar(255) NOT NULL,
     puntuacion int(11) DEFAULT NULL,
     mensaje varchar(255) DEFAULT NULL,
-    fecha date DEFAULT NULL
+    fecha date DEFAULT NULL,
 
     FOREIGN KEY (idArticulo) REFERENCES articulos(ID)
     FOREIGN KEY (email) REFERENCES usuarios(Email)
