@@ -81,7 +81,8 @@
                         // Si no, se muestra normal.
                         // Para los acentos se usa UTF8_decode
                         // Ref: https://es.stackoverflow.com/questions/79527/problema-con-los-acentos-en-fpdf
-                        $this->Cell($w, 7, utf8_decode($value), 1, 0);
+                        // Deprecated, eliminado
+                        $this->Cell($w, 7, $value, 1, 0);
                     }
                 }
                 $this->Ln();

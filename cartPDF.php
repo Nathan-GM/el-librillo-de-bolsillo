@@ -80,7 +80,7 @@
                     if ($key == "Precio") {
                         $this->Cell($w, 7, $value . chr(128), 1);
                     } else {
-                        $this->Cell($w, 7, utf8_decode($value), 1);
+                        $this->Cell($w, 7, $value, 1);
                     }
                 }
                 $this->Cell($w, 7, $productPrice . chr(128), 1);
