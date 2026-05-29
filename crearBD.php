@@ -1,8 +1,8 @@
 <?php
 // Fichero para crear la base de datos usando docker.
-    $nombreServidor = "eldb";
+    $nombreServidor = "db";
     $username = "root";
-    $password = "root";
+    $password = "rootpassword";
     $database = "proyecto";
     $port = 3306;
 

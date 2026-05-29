@@ -20,8 +20,16 @@
 
         <!-- PHP - se inicia la sesión y se obtiene al usuario. -->
         <?php 
+            // Datos BD docker
+            $nombreServidor = "db";
+            $usernameDB = "root";
+            $passwordDB = "rootpassword";
+            $database = "proyecto";
+            $port = 3306;
+
             // Se crea la conexión a la base de datos
-            $databaseConnection = new mysqli("localhost", "root", "", "proyecto");
+            //$databaseConnection = new mysqli("localhost", "root", "", "proyecto"); // LOCAL
+            $databaseConnection = new mysqli($nombreServidor, $username, $passwordDB, $database, $port);
             // Se inicia la sesión
             session_start();
             // si hay un usuario asignado 
